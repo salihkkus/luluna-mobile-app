@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Lexend:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#001a43",
+                    "on-background": "#1a1b1f",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed": "#ffdea3",
+                    "surface-bright": "#faf8fe",
+                    "primary": "#455e92",
+                    "outline-variant": "#c4c6d0",
+                    "on-secondary-container": "#47686c",
+                    "surface-container": "#efedf2",
+                    "primary-fixed": "#d8e2ff",
+                    "primary-container": "#abc4ff",
+                    "surface-container-highest": "#e3e2e7",
+                    "outline": "#747780",
+                    "inverse-surface": "#2f3034",
+                    "secondary-fixed": "#c6e9ee",
+                    "on-secondary-fixed": "#001f23",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#aec6ff",
+                    "on-tertiary-fixed": "#261900",
+                    "primary-fixed-dim": "#aec6ff",
+                    "error": "#ba1a1a",
+                    "background": "#faf8fe",
+                    "on-surface-variant": "#44474f",
+                    "on-error": "#ffffff",
+                    "on-tertiary-container": "#694c00",
+                    "surface-tint": "#455e92",
+                    "on-tertiary-fixed-variant": "#5d4200",
+                    "on-primary-container": "#375084",
+                    "surface-variant": "#e3e2e7",
+                    "surface-container-high": "#e9e7ec",
+                    "tertiary-container": "#e9be69",
+                    "on-surface": "#1a1b1f",
+                    "inverse-on-surface": "#f1f0f5",
+                    "tertiary-fixed-dim": "#ecc06b",
+                    "surface-dim": "#dad9de",
+                    "on-primary-fixed-variant": "#2c4678",
+                    "surface-container-low": "#f4f3f8",
+                    "on-secondary-fixed-variant": "#2b4c50",
+                    "on-error-container": "#93000a",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#c3e6eb",
+                    "secondary": "#436468",
+                    "tertiary": "#79590a",
+                    "surface": "#faf8fe",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed-dim": "#aacdd2",
+                    "on-tertiary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "xs": "4px",
+                    "unit": "4px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "container-margin": "20px",
+                    "touch-target-min": "48px",
+                    "sm": "8px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-lg": ["Lexend"],
+                    "body-md": ["Lexend"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "body-lg": ["Lexend"],
+                    "label-md": ["Lexend"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 12px;
+            border-radius: 9999px;
+            background: #abc4ff;
+            outline: none;
+        }
+        .custom-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #455e92;
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md flex flex-col">
+<!-- Header Section -->
+<header class="relative overflow-hidden pt-xl pb-lg px-container-margin bg-gradient-to-br from-primary-fixed to-surface-bright">
+<!-- Floating Shapes -->
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-secondary-container/30 rounded-full blur-3xl"></div>
+<div class="absolute top-20 -left-10 w-32 h-32 bg-tertiary-container/20 rounded-full blur-2xl"></div>
+<nav class="flex items-center gap-md relative z-10 mb-md">
+<button class="w-touch-target-min h-touch-target-min flex items-center justify-center bg-white/80 backdrop-blur-md rounded-full shadow-sm hover:scale-95 transition-transform active:bg-primary-container">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+</nav>
+<div class="relative z-10">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Ayarlar</h1>
+<p class="font-body-md text-on-surface-variant">Uygulamayı kişiselleştir</p>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 px-container-margin pt-lg pb-40 space-y-lg max-w-[600px] mx-auto w-full">
+<!-- SES AYARLARI -->
+<section class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg p-lg shadow-lg shadow-primary/5">
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">volume_up</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface uppercase tracking-wide">Ses Ayarları</h2>
+</div>
+<div class="space-y-xl">
+<!-- Volume Slider -->
+<div class="space-y-sm">
+<div class="flex justify-between items-center px-xs">
+<span class="font-label-lg text-label-lg text-on-surface-variant">Ses Seviyesi</span>
+<span class="font-label-lg text-label-lg text-primary font-bold">80%</span>
+</div>
+<input class="custom-slider" type="range" value="80"/>
+</div>
+<!-- Speech Speed Slider -->
+<div class="space-y-sm">
+<div class="flex justify-between items-center px-xs">
+<span class="font-label-lg text-label-lg text-on-surface-variant">Konuşma Hızı</span>
+<span class="font-label-lg text-label-lg text-primary font-bold">Normal</span>
+</div>
+<input class="custom-slider" type="range" value="50"/>
+</div>
+<!-- Selectors -->
+<div class="grid grid-cols-1 gap-md">
+<div class="flex items-center justify-between p-md bg-surface-container-low rounded-md">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">language</span>
+<span class="font-body-md">Dil Seçimi</span>
+</div>
+<select class="bg-transparent border-none font-label-lg text-primary focus:ring-0 cursor-pointer">
+<option>Türkçe</option>
+<option>English</option>
+</select>
+</div>
+<div class="flex items-center justify-between p-md bg-surface-container-low rounded-md">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">record_voice_over</span>
+<span class="font-body-md">Ses Tipi</span>
+</div>
+<select class="bg-transparent border-none font-label-lg text-primary focus:ring-0 cursor-pointer">
+<option>Kadın</option>
+<option>Erkek</option>
+</select>
+</div>
+</div>
+</div>
+</section>
+<!-- KAMERA AYARLARI -->
+<section class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg p-lg shadow-lg shadow-primary/5 overflow-hidden">
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">photo_camera</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface uppercase tracking-wide">Kamera Ayarları</h2>
+</div>
+<div class="space-y-lg">
+<div class="flex gap-md items-start">
+<div class="w-32 h-24 rounded-md overflow-hidden bg-secondary-fixed border-2 border-white shadow-sm flex-shrink-0">
+<img class="w-full h-full object-cover opacity-80" data-alt="A soft-focus, high-quality photograph of a bright, modern interior room with sunlight streaming through large windows. The image has a calm, minimalist aesthetic with pastel accents in mint green and light blue. The composition is clean and artistic, reflecting a professional camera preview setting in a high-end application environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvhiU9wxhTvVU9F05sPrPnR5XV4k_X6PfqtsTwjw9B1I6geHS4O4PtAYYXCn1i0bWLUZJA3rETlh00zKXfYsE1vmsQ4y1xA6F2JmPLvD42phxA5N-6YfActntz1jQD8aRUBJ12RPp3rUw4-WNHJnSPLc2VNMqWbXCKUf3Dv8-fe0i5gwwp0N1YuzJtTzKuC4bnVAam5IVHXz_mVCH9mYslH3aYgPM4aBNZRwHtAcPsnqsAs2l2VLxfwnP43m8yWd9dtNcKOC8h-4Y"/>
+</div>
+<div class="flex-1 space-y-md">
+<span class="font-label-lg text-label-lg text-on-surface-variant block">Kamera Kalitesi</span>
+<div class="flex bg-surface-container-low p-xs rounded-full">
+<button class="flex-1 py-xs text-label-md font-label-md rounded-full text-on-surface-variant">Düşük</button>
+<button class="flex-1 py-xs text-label-md font-label-md rounded-full bg-secondary text-on-secondary shadow-sm">Orta</button>
+<button class="flex-1 py-xs text-label-md font-label-md rounded-full text-on-surface-variant">Yüksek</button>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-md bg-secondary-fixed/20 rounded-md">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary">flash_on</span>
+<span class="font-body-md">Flaş</span>
+</div>
+<button class="w-12 h-6 bg-secondary rounded-full relative flex items-center px-1">
+<div class="w-4 h-4 bg-white rounded-full translate-x-6"></div>
+</button>
+</div>
+<button class="w-full flex items-center justify-between p-md bg-surface-container-low rounded-md hover:bg-surface-variant transition-colors group">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:rotate-180 transition-transform duration-500">flip_camera_ios</span>
+<span class="font-body-md">Ön / Arka Kamera</span>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- EBEVEYN KONTROLÜ -->
+<section class="bg-surface-container-lowest border border-tertiary-container/20 rounded-lg p-lg shadow-lg shadow-tertiary/5">
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">Control</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface uppercase tracking-wide">Ebeveyn Kontrolü</h2>
+</div>
+<div class="space-y-md">
+<div class="flex items-center gap-md p-md bg-tertiary-fixed/10 border border-tertiary-fixed/30 rounded-md">
+<span class="material-symbols-outlined text-tertiary">lock</span>
+<div class="flex-1">
+<span class="block text-label-md text-on-tertiary-fixed-variant">Güvenlik</span>
+<input class="bg-transparent border-none p-0 focus:ring-0 font-headline-sm text-on-surface" readonly="" type="password" value="••••"/>
+</div>
+<span class="material-symbols-outlined text-outline">edit</span>
+</div>
+<div class="flex items-center justify-between p-md bg-surface-container-low rounded-md">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">hourglass_empty</span>
+<span class="font-body-md">Ekran Süresi</span>
+</div>
+<select class="bg-transparent border-none font-label-lg text-tertiary focus:ring-0">
+<option>30 Dakika</option>
+<option>1 Saat</option>
+<option>2 Saat</option>
+</select>
+</div>
+<button class="w-full flex items-center justify-between p-md bg-surface-container-low rounded-md">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">history</span>
+<span class="font-body-md">Kullanım Geçmişi</span>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- DİĞER AYARLAR -->
+<section class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg p-lg shadow-lg shadow-primary/5">
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined text-on-surface-variant">more_horiz</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface uppercase tracking-wide">Diğer Ayarlar</h2>
+</div>
+<div class="space-y-xs">
+<div class="flex items-center justify-between py-md px-sm border-b border-outline-variant/10">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="font-body-md">Bildirimler</span>
+</div>
+<button class="w-12 h-6 bg-primary rounded-full relative flex items-center px-1">
+<div class="w-4 h-4 bg-white rounded-full translate-x-6"></div>
+</button>
+</div>
+<div class="flex items-center justify-between py-md px-sm border-b border-outline-variant/10">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">cloud_upload</span>
+<span class="font-body-md">Veri Yedekleme</span>
+</div>
+<button class="w-12 h-6 bg-outline-variant rounded-full relative flex items-center px-1">
+<div class="w-4 h-4 bg-white rounded-full"></div>
+</button>
+</div>
+<button class="w-full flex items-center justify-between py-md px-sm border-b border-outline-variant/10">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">info</span>
+<span class="font-body-md">Hakkında</span>
+</div>
+<span class="text-label-md text-outline">v2.4.0</span>
+</button>
+<button class="w-full mt-lg py-md px-lg bg-primary/10 text-primary font-label-lg rounded-full hover:bg-primary/20 transition-colors flex justify-center items-center gap-sm">
+<span class="material-symbols-outlined text-sm">feedback</span>
+                    Geri Bildirim Gönder
+                </button>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-lg pb-md">
+<div class="bg-surface-container-highest/90 backdrop-blur-lg rounded-full mb-lg mx-container-margin w-full flex justify-around items-center py-sm shadow-lg shadow-primary/10 border border-outline-variant/30">
+<!-- Scan -->
+<button class="flex flex-col items-center justify-center text-on-secondary-container dark:text-on-secondary-fixed-variant px-lg py-xs hover:bg-secondary-container/50 rounded-full transition-all">
+<span class="material-symbols-outlined">photo_camera</span>
+<span class="text-label-md font-label-md">Scan</span>
+</button>
+<!-- Lessons -->
+<button class="flex flex-col items-center justify-center text-on-secondary-container dark:text-on-secondary-fixed-variant px-lg py-xs hover:bg-secondary-container/50 rounded-full transition-all">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="text-label-md font-label-md">Lessons</span>
+</button>
+<!-- Growth -->
+<button class="flex flex-col items-center justify-center text-on-secondary-container dark:text-on-secondary-fixed-variant px-lg py-xs hover:bg-secondary-container/50 rounded-full transition-all">
+<span class="material-symbols-outlined">auto_graph</span>
+<span class="text-label-md font-label-md">Growth</span>
+</button>
+<!-- Profile (Active) -->
+<button class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-full px-lg py-xs scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="text-label-md font-label-md">Profile</span>
+</button>
+</div>
+</nav>
+</body></html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-low": "#f4f3f8",
+                      "on-primary-container": "#375084",
+                      "secondary-fixed-dim": "#aacdd2",
+                      "secondary": "#436468",
+                      "on-primary-fixed-variant": "#2c4678",
+                      "on-secondary-fixed": "#001f23",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-tint": "#455e92",
+                      "outline-variant": "#c4c6d0",
+                      "secondary-fixed": "#c6e9ee",
+                      "primary": "#455e92",
+                      "on-surface-variant": "#44474f",
+                      "on-secondary": "#ffffff",
+                      "tertiary-container": "#e9be69",
+                      "inverse-on-surface": "#f1f0f5",
+                      "outline": "#747780",
+                      "on-error-container": "#93000a",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed": "#001a43",
+                      "tertiary-fixed-dim": "#ecc06b",
+                      "on-secondary-fixed-variant": "#2b4c50",
+                      "surface-variant": "#e3e2e7",
+                      "inverse-primary": "#aec6ff",
+                      "on-tertiary-fixed-variant": "#5d4200",
+                      "on-secondary-container": "#47686c",
+                      "background": "#faf8fe",
+                      "on-tertiary-fixed": "#261900",
+                      "primary-container": "#abc4ff",
+                      "surface-container-highest": "#e3e2e7",
+                      "surface-dim": "#dad9de",
+                      "error-container": "#ffdad6",
+                      "on-tertiary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed": "#ffdea3",
+                      "secondary-container": "#c3e6eb",
+                      "surface-container-high": "#e9e7ec",
+                      "on-background": "#1a1b1f",
+                      "on-surface": "#1a1b1f",
+                      "primary-fixed-dim": "#aec6ff",
+                      "primary-fixed": "#d8e2ff",
+                      "inverse-surface": "#2f3034",
+                      "tertiary": "#79590a",
+                      "surface": "#faf8fe",
+                      "error": "#ba1a1a",
+                      "surface-container": "#efedf2",
+                      "surface-bright": "#faf8fe",
+                      "on-tertiary-container": "#694c00"
+              },
+              "borderRadius": {
+                      "DEFAULT": "1rem",
+                      "lg": "2rem",
+                      "xl": "3rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "md": "16px",
+                      "container-margin": "20px",
+                      "unit": "4px",
+                      "sm": "8px",
+                      "xs": "4px",
+                      "xl": "32px",
+                      "lg": "24px",
+                      "touch-target-min": "48px"
+              },
+              "fontFamily": {
+                      "label-lg": ["Lexend"],
+                      "body-md": ["Lexend"],
+                      "label-md": ["Lexend"],
+                      "headline-sm": ["Plus Jakarta Sans"],
+                      "headline-md": ["Plus Jakarta Sans"],
+                      "body-lg": ["Lexend"],
+                      "headline-lg": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                      "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .scanning-line {
+            height: 4px;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, #abc4ff, transparent);
+            position: absolute;
+            top: 50%;
+            animation: scan 3s infinite ease-in-out;
+            box-shadow: 0 0 15px #abc4ff;
+        }
+        @keyframes scan {
+            0% { top: 10%; opacity: 0; }
+            50% { top: 50%; opacity: 1; }
+            100% { top: 90%; opacity: 0; }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden">
+<!-- Top App Bar -->
+<header class="bg-surface/80 backdrop-blur-md sticky top-0 w-full z-50 flex justify-between items-center px-container-margin h-touch-target-min">
+<div class="flex items-center gap-sm">
+<div class="bg-primary-container p-unit rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">brightness_3</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-headline-sm font-headline-sm text-primary">Luluna</h1>
+<p class="text-label-md font-label-md text-on-surface-variant">Hadi keşfedelim</p>
+</div>
+</div>
+<button class="w-touch-target-min h-touch-target-min flex items-center justify-center hover:bg-surface-variant rounded-full transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+</header>
+<main class="flex-1 px-container-margin py-md flex flex-col gap-lg">
+<!-- Camera Preview Area -->
+<section class="relative w-full aspect-[3/4] bg-surface-container-highest rounded-lg overflow-hidden shadow-lg shadow-primary/5 border border-outline-variant/20">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A high-quality close-up photograph of a bright red apple sitting on a clean wooden table. The lighting is soft and natural, emphasizing the smooth, glossy skin of the fruit. The background is softly blurred to maintain focus on the subject. The overall aesthetic is calm, professional, and minimalist, matching a gentle educational interface." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB_PY8BatET3NufzbSVfikFs7YVh6hOLZBHdTO_RWTUpcZ8Kj8Y1A6k81hk3INz_YvRk68wZumQNdeN21unYNJRjsDFGxOtz3xCE-4z1Wx7d6pJCcN1Dcoh8xrF-rrP2kE9n2yO_psLTfU14xZDl91kLlqACklEhrWPqmFpK9WrQ4HtUTq8NTQI-xxg129haAvJaerydQVvV-Nwn11xgrOTr3FcZdeOMwYw-zinCt9OmWkk2hmo8RpsAAGBn8JHwqtWIeolYmoE-0A')">
+<!-- Overlay Gradient -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+</div>
+<!-- Scanning Elements -->
+<div class="scanning-line"></div>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="border-2 border-primary-container w-48 h-48 rounded-lg flex items-center justify-center">
+<div class="bg-primary/20 backdrop-blur-sm px-md py-sm rounded-full">
+<p class="text-white font-label-lg tracking-wide">Nesne aranıyor...</p>
+</div>
+</div>
+</div>
+<!-- Corner Accents for Viewfinder -->
+<div class="absolute top-md left-md w-sm h-sm border-t-2 border-l-2 border-white rounded-tl-md"></div>
+<div class="absolute top-md right-md w-sm h-sm border-t-2 border-r-2 border-white rounded-tr-md"></div>
+<div class="absolute bottom-md left-md w-sm h-sm border-b-2 border-l-2 border-white rounded-bl-md"></div>
+<div class="absolute bottom-md right-md w-sm h-sm border-b-2 border-r-2 border-white rounded-br-md"></div>
+</section>
+<!-- Interaction Panel -->
+<section class="bg-surface-container-low rounded-lg p-lg flex flex-col gap-md shadow-sm border border-outline-variant/10">
+<!-- Recognition Card -->
+<div class="bg-surface rounded-md p-md border border-outline-variant/30 flex flex-col gap-sm">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-sm">
+<span class="text-headline-md">🍎</span>
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Elma</h3>
+</div>
+<span class="text-label-lg font-label-lg text-primary">85%</span>
+</div>
+<div class="w-full h-sm bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 85%;"></div>
+</div>
+</div>
+<!-- AI Chat Bubble -->
+<div class="flex items-start gap-sm">
+<div class="bg-primary-container text-on-primary-container p-md rounded-tr-lg rounded-bl-lg rounded-br-lg shadow-sm max-w-[85%]">
+<p class="text-body-md font-body-md">Sence elma ne renktir?</p>
+</div>
+<button class="bg-secondary-container text-on-secondary-container w-touch-target-min h-touch-target-min flex items-center justify-center rounded-full active:scale-95 transition-transform">
+<span class="material-symbols-outlined">mic</span>
+</button>
+</div>
+<!-- Action Button -->
+<button class="w-full h-[64px] bg-gradient-to-r from-primary to-primary/80 text-on-primary rounded-full font-headline-sm shadow-lg shadow-primary/20 flex items-center justify-center gap-sm active:scale-[0.97] transition-all duration-200">
+<span class="material-symbols-outlined">center_focus_strong</span>
+                Nesne Tespit Et
+            </button>
+</section>
+</main>
+<!-- Floating Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-lg pb-md">
+<div class="bg-surface-container-highest/90 backdrop-blur-lg rounded-full mx-container-margin w-full flex justify-around items-center h-touch-target-min shadow-lg shadow-primary/10 border border-outline-variant/30">
+<!-- Scan (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-full px-lg py-xs transition-transform active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">photo_camera</span>
+<span class="text-label-md font-label-md">Scan</span>
+</a>
+<!-- Lessons -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container px-lg py-xs hover:bg-secondary-container/50 rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="text-label-md font-label-md">Lessons</span>
+</a>
+<!-- Growth -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container px-lg py-xs hover:bg-secondary-container/50 rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined">auto_graph</span>
+<span class="text-label-md font-label-md">Growth</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container px-lg py-xs hover:bg-secondary-container/50 rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-label-md font-label-md">Profile</span>
+</a>
+</div>
+</nav>
+<!-- Padding for bottom nav -->
+<div class="h-24"></div>
+</body></html>

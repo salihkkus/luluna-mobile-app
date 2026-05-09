@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Lexend:wght@400;500;600;700&amp;family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Poppins', 'Lexend', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .soft-gradient-bg {
+            background: linear-gradient(135deg, #faf8fe 0%, #f0f4ff 100%);
+        }
+        .pill-shadow {
+            box-shadow: 0 10px 25px -5px rgba(69, 94, 146, 0.1);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-container": "#c3e6eb",
+                      "surface-dim": "#dad9de",
+                      "on-tertiary-fixed-variant": "#5d4200",
+                      "surface-bright": "#faf8fe",
+                      "primary": "#455e92",
+                      "inverse-primary": "#aec6ff",
+                      "tertiary-container": "#e9be69",
+                      "secondary-fixed": "#c6e9ee",
+                      "on-secondary-fixed-variant": "#2b4c50",
+                      "on-secondary": "#ffffff",
+                      "surface-container-high": "#e9e7ec",
+                      "primary-container": "#abc4ff",
+                      "on-primary-container": "#375084",
+                      "tertiary": "#79590a",
+                      "error-container": "#ffdad6",
+                      "on-surface-variant": "#44474f",
+                      "on-tertiary-fixed": "#261900",
+                      "outline": "#747780",
+                      "tertiary-fixed": "#ffdea3",
+                      "on-error-container": "#93000a",
+                      "inverse-surface": "#2f3034",
+                      "on-primary": "#ffffff",
+                      "surface-tint": "#455e92",
+                      "background": "#faf8fe",
+                      "on-tertiary": "#ffffff",
+                      "secondary": "#436468",
+                      "on-primary-fixed": "#001a43",
+                      "on-tertiary-container": "#694c00",
+                      "inverse-on-surface": "#f1f0f5",
+                      "surface-container-lowest": "#ffffff",
+                      "surface": "#faf8fe",
+                      "on-surface": "#1a1b1f",
+                      "secondary-fixed-dim": "#aacdd2",
+                      "surface-container-highest": "#e3e2e7",
+                      "error": "#ba1a1a",
+                      "on-secondary-fixed": "#001f23",
+                      "tertiary-fixed-dim": "#ecc06b",
+                      "surface-variant": "#e3e2e7",
+                      "surface-container-low": "#f4f3f8",
+                      "primary-fixed": "#d8e2ff",
+                      "outline-variant": "#c4c6d0",
+                      "on-background": "#1a1b1f",
+                      "surface-container": "#efedf2",
+                      "on-error": "#ffffff",
+                      "on-primary-fixed-variant": "#2c4678",
+                      "primary-fixed-dim": "#aec6ff",
+                      "on-secondary-container": "#47686c"
+              },
+              "borderRadius": {
+                      "DEFAULT": "1rem",
+                      "lg": "2rem",
+                      "xl": "3rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "32px",
+                      "touch-target-min": "48px",
+                      "container-margin": "20px",
+                      "unit": "4px",
+                      "sm": "8px",
+                      "xs": "4px",
+                      "md": "16px",
+                      "lg": "24px"
+              },
+              "fontFamily": {
+                      "label-lg": ["Lexend"],
+                      "body-md": ["Lexend"],
+                      "label-md": ["Lexend"],
+                      "headline-lg": ["Plus Jakarta Sans"],
+                      "headline-sm": ["Plus Jakarta Sans"],
+                      "headline-md": ["Plus Jakarta Sans"],
+                      "body-lg": ["Lexend"]
+              },
+              "fontSize": {
+                      "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-32">
+<!-- Top AppBar -->
+<header class="bg-surface/80 backdrop-blur-md sticky top-0 z-50 flex justify-between items-center px-container-margin h-touch-target-min w-full shadow-sm">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="bubble_chart">bubble_chart</span>
+<span class="text-headline-sm font-headline-sm text-primary">EduScan AI</span>
+</div>
+<div class="flex items-center gap-sm">
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<main class="px-container-margin pt-lg space-y-lg max-w-md mx-auto">
+<!-- Profile Header -->
+<section class="flex items-center justify-between bg-gradient-to-br from-primary-container/30 to-secondary-container/30 p-lg rounded-lg border border-outline-variant/20">
+<div class="flex items-center gap-md">
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-white shadow-sm">
+<img alt="Ece" class="w-full h-full object-cover" data-alt="A warm, close-up portrait of a young child with a bright, happy expression and expressive eyes. The background is a soft, blurred nursery setting with gentle pastel colors. The lighting is natural and airy, reflecting a calm and supportive educational environment for early childhood development." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBETTwMWwWHNk2jF07lsyvgwt9rkhdwuGPDxcJmRwKdkS-gnvp8zE46fmXMYYEAJ_sn803CnQceuJWphjnw85sVSIq1MJ6KPgxKjiqfAWkc5jPPRjXxQcqbkuYKUHsLySuzghC_uTMk27ShxwAMDNCVAymHTL4zLcOoSCSi-AmKRjdostqSqYLKJLhxtLaHGM53e9qdX_fQH6mK2eSdOYjBcnAMtvQi_CUL2umQisVeZKnFsQFnHKizvdlqkK-a7CA7qnLXQ_o85mY"/>
+</div>
+<div>
+<h1 class="text-headline-md font-headline-md text-on-surface">Ece</h1>
+<p class="text-body-md text-on-surface-variant">Bugünkü gelişim özeti</p>
+</div>
+</div>
+<button class="bg-white/80 p-sm rounded-full shadow-sm border border-outline-variant/30 text-primary">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+</button>
+</section>
+<!-- Summary Cards Grid -->
+<section class="grid grid-cols-2 gap-md">
+<!-- Card 1 -->
+<div class="bg-primary-fixed/20 p-md rounded-lg flex flex-col items-center justify-center text-center space-y-xs border border-primary-container/30 pill-shadow">
+<span class="text-xl">🎯</span>
+<span class="text-headline-sm font-headline-sm text-primary">124 Nesne</span>
+<span class="text-label-md text-on-primary-container">Tanımlanan</span>
+</div>
+<!-- Card 2 -->
+<div class="bg-secondary-fixed/20 p-md rounded-lg flex flex-col items-center justify-center text-center space-y-xs border border-secondary-fixed-dim/30 pill-shadow">
+<span class="text-xl">📈</span>
+<span class="text-headline-sm font-headline-sm text-secondary">+15%</span>
+<span class="text-label-md text-on-secondary-fixed-variant">Başarı Artışı</span>
+</div>
+<!-- Card 3 -->
+<div class="bg-tertiary-fixed/20 p-md rounded-lg flex flex-col items-center justify-center text-center space-y-xs border border-tertiary-fixed-dim/30 pill-shadow">
+<span class="text-xl">⏰</span>
+<span class="text-headline-sm font-headline-sm text-tertiary">25 dk/gün</span>
+<span class="text-label-md text-on-tertiary-container">Ortalama Süre</span>
+</div>
+<!-- Card 4 -->
+<div class="bg-error-container/10 p-md rounded-lg flex flex-col items-center justify-center text-center space-y-xs border border-error-container/30 pill-shadow">
+<span class="text-xl">🍎</span>
+<span class="text-headline-sm font-headline-sm text-on-error-container">Elma</span>
+<span class="text-label-md text-on-error-container">(12 kez)</span>
+</div>
+</section>
+<!-- Graph Section -->
+<section class="bg-surface-container-lowest p-lg rounded-lg border border-outline-variant/30 pill-shadow">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">İlerleme Grafiği</h3>
+<div class="flex bg-surface-container-high rounded-full p-xs">
+<button class="px-md py-xs bg-white rounded-full text-label-md font-label-md text-primary shadow-sm">Haftalık</button>
+<button class="px-md py-xs text-label-md font-label-md text-on-surface-variant">Aylık</button>
+</div>
+</div>
+<!-- Bar Chart Representation -->
+<div class="h-40 flex items-end justify-between gap-sm mb-xl">
+<div class="w-full bg-primary-container/20 rounded-t-full h-[40%] flex items-end transition-all duration-300">
+<div class="w-full bg-primary-container rounded-t-full h-full"></div>
+</div>
+<div class="w-full bg-secondary-container/20 rounded-t-full h-[65%] flex items-end transition-all duration-300">
+<div class="w-full bg-secondary-container rounded-t-full h-full"></div>
+</div>
+<div class="w-full bg-primary-container/20 rounded-t-full h-[50%] flex items-end transition-all duration-300">
+<div class="w-full bg-primary-container rounded-t-full h-full"></div>
+</div>
+<div class="w-full bg-tertiary-container/20 rounded-t-full h-[85%] flex items-end transition-all duration-300">
+<div class="w-full bg-tertiary-container rounded-t-full h-full"></div>
+</div>
+<div class="w-full bg-primary-container/20 rounded-t-full h-[70%] flex items-end transition-all duration-300">
+<div class="w-full bg-primary-container rounded-t-full h-full"></div>
+</div>
+<div class="w-full bg-secondary-container/20 rounded-t-full h-[95%] flex items-end transition-all duration-300">
+<div class="w-full bg-secondary-container rounded-t-full h-full"></div>
+</div>
+</div>
+<div class="flex gap-lg items-center pt-md border-t border-outline-variant/20">
+<div class="relative w-24 h-24">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+<circle class="stroke-surface-container-highest" cx="18" cy="18" fill="none" r="16" stroke-width="4"></circle>
+<circle class="stroke-primary" cx="18" cy="18" fill="none" r="16" stroke-dasharray="75, 100" stroke-width="4"></circle>
+<circle class="stroke-secondary" cx="18" cy="18" fill="none" r="16" stroke-dasharray="25, 100" stroke-dashoffset="-75" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="text-label-lg font-bold text-primary">75%</span>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<div class="flex items-center gap-xs">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="text-label-md text-on-surface-variant">Meyveler</span>
+</div>
+<div class="flex items-center gap-xs">
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+<span class="text-label-md text-on-surface-variant">Hayvanlar</span>
+</div>
+<div class="flex items-center gap-xs">
+<div class="w-3 h-3 rounded-full bg-surface-container-highest"></div>
+<span class="text-label-md text-on-surface-variant">Diğer</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Detailed Stats & Milestones -->
+<section class="space-y-md">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Kategori Başarıları</h3>
+<div class="bg-surface-container-low p-md rounded-lg space-y-lg border border-outline-variant/20">
+<div class="space-y-sm">
+<div class="flex justify-between items-center">
+<span class="text-label-lg font-label-lg text-on-surface-variant">Meyveler</span>
+<span class="text-label-lg font-bold text-primary">88%</span>
+</div>
+<div class="h-3 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 88%"></div>
+</div>
+</div>
+<div class="space-y-sm">
+<div class="flex justify-between items-center">
+<span class="text-label-lg font-label-lg text-on-surface-variant">Hayvanlar</span>
+<span class="text-label-lg font-bold text-secondary">64%</span>
+</div>
+<div class="h-3 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 64%"></div>
+</div>
+</div>
+</div>
+<!-- Milestone Cards -->
+<div class="flex gap-md overflow-x-auto pb-md no-scrollbar">
+<div class="flex-shrink-0 w-32 bg-tertiary-fixed/30 p-md rounded-lg text-center space-y-sm border border-tertiary-fixed-dim/40">
+<span class="material-symbols-outlined text-tertiary" data-icon="stars" style="font-variation-settings: 'FILL' 1">stars</span>
+<p class="text-label-md font-bold text-on-tertiary-container">Hızlı Öğrenci</p>
+</div>
+<div class="flex-shrink-0 w-32 bg-primary-fixed/30 p-md rounded-lg text-center space-y-sm border border-primary-container/40">
+<span class="material-symbols-outlined text-primary" data-icon="emoji_events" style="font-variation-settings: 'FILL' 1">emoji_events</span>
+<p class="text-label-md font-bold text-on-primary-container">100 Nesne!</p>
+</div>
+<div class="flex-shrink-0 w-32 bg-secondary-fixed/30 p-md rounded-lg text-center space-y-sm border border-secondary-fixed-dim/40">
+<span class="material-symbols-outlined text-secondary" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1">auto_awesome</span>
+<p class="text-label-md font-bold text-on-secondary-fixed-variant">Odaklanmış</p>
+</div>
+</div>
+</section>
+<!-- Reporting Buttons -->
+<section class="space-y-sm pt-md">
+<button class="w-full h-14 bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container rounded-lg flex items-center justify-between px-lg font-bold shadow-md active:scale-95 transition-transform">
+<span class="flex items-center gap-md">
+<span class="material-symbols-outlined" data-icon="picture_as_pdf">picture_as_pdf</span>
+                    PDF İndir
+                </span>
+<span class="material-symbols-outlined" data-icon="download">download</span>
+</button>
+<button class="w-full h-14 bg-surface-container-highest text-on-surface-variant rounded-lg flex items-center px-lg font-semibold border border-outline-variant/30 active:scale-95 transition-transform">
+<span class="material-symbols-outlined mr-md" data-icon="mail">mail</span>
+                E-posta Gönder
+            </button>
+<button class="w-full h-14 bg-surface-container-highest text-on-surface-variant rounded-lg flex items-center px-lg font-semibold border border-outline-variant/30 active:scale-95 transition-transform">
+<span class="material-symbols-outlined mr-md" data-icon="medication_liquid">medication_liquid</span>
+                Terapistle Paylaş
+            </button>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-lg pb-md">
+<div class="bg-surface-container-highest/90 backdrop-blur-lg rounded-full mb-lg mx-container-margin w-full flex justify-around items-center py-sm shadow-lg shadow-primary/10 border border-outline-variant/30">
+<!-- Scan -->
+<button class="flex flex-col items-center justify-center text-on-secondary-container dark:text-on-secondary-fixed-variant px-lg py-xs hover:bg-secondary-container/50 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="photo_camera">photo_camera</span>
+<span class="text-label-md font-label-md">Scan</span>
+</button>
+<!-- Lessons -->
+<button class="flex flex-col items-center justify-center text-on-secondary-container dark:text-on-secondary-fixed-variant px-lg py-xs hover:bg-secondary-container/50 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+<span class="text-label-md font-label-md">Lessons</span>
+</button>
+<!-- Growth (Active) -->
+<button class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-full px-lg py-xs scale-95 transition-transform shadow-md">
+<span class="material-symbols-outlined" data-icon="auto_graph" style="font-variation-settings: 'FILL' 1">auto_graph</span>
+<span class="text-label-md font-label-md">Growth</span>
+</button>
+<!-- Profile -->
+<button class="flex flex-col items-center justify-center text-on-secondary-container dark:text-on-secondary-fixed-variant px-lg py-xs hover:bg-secondary-container/50 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-label-md font-label-md">Profile</span>
+</button>
+</div>
+</nav>
+</body></html>

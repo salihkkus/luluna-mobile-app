@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&amp;family=Plus+Jakarta Sans:wght@600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-primary": "#aec6ff",
+                    "tertiary-container": "#e9be69",
+                    "surface-dim": "#dad9de",
+                    "secondary-container": "#c3e6eb",
+                    "outline-variant": "#c4c6d0",
+                    "on-surface": "#1a1b1f",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "background": "#faf8fe",
+                    "tertiary": "#79590a",
+                    "secondary-fixed": "#c6e9ee",
+                    "primary-fixed-dim": "#aec6ff",
+                    "on-secondary-fixed": "#001f23",
+                    "on-tertiary-fixed-variant": "#5d4200",
+                    "outline": "#747780",
+                    "error": "#ba1a1a",
+                    "primary-container": "#abc4ff",
+                    "surface-container-high": "#e9e7ec",
+                    "on-secondary-container": "#47686c",
+                    "surface-bright": "#faf8fe",
+                    "surface": "#faf8fe",
+                    "on-tertiary-fixed": "#261900",
+                    "on-background": "#1a1b1f",
+                    "on-tertiary-container": "#694c00",
+                    "on-primary-container": "#375084",
+                    "tertiary-fixed-dim": "#ecc06b",
+                    "on-primary-fixed": "#001a43",
+                    "on-primary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed-dim": "#aacdd2",
+                    "on-secondary": "#ffffff",
+                    "primary": "#455e92",
+                    "surface-container-low": "#f4f3f8",
+                    "secondary": "#436468",
+                    "tertiary-fixed": "#ffdea3",
+                    "on-secondary-fixed-variant": "#2b4c50",
+                    "surface-container": "#efedf2",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "surface-variant": "#e3e2e7",
+                    "on-surface-variant": "#44474f",
+                    "surface-tint": "#455e92",
+                    "on-primary-fixed-variant": "#2c4678",
+                    "surface-container-highest": "#e3e2e7",
+                    "inverse-surface": "#2f3034",
+                    "inverse-on-surface": "#f1f0f5",
+                    "primary-fixed": "#d8e2ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "xl": "32px",
+                    "sm": "8px",
+                    "touch-target-min": "48px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "container-margin": "20px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "label-lg": ["Lexend"],
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "label-md": ["Lexend"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-md": ["Lexend"],
+                    "body-lg": ["Lexend"]
+            },
+            "fontSize": {
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            background: linear-gradient(135deg, rgba(216, 226, 255, 0.9) 0%, rgba(195, 230, 235, 0.8) 100%);
+            backdrop-filter: blur(10px);
+        }
+        .soft-shadow {
+            box-shadow: 0 10px 30px -5px rgba(69, 94, 146, 0.1);
+        }
+        .squishy:active {
+            transform: scale(0.95);
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-40">
+<!-- Header Section -->
+<header class="glass-header pt-xl pb-lg px-container-margin rounded-b-xl mb-lg">
+<div class="flex items-center justify-between mb-md">
+<button class="w-touch-target-min h-touch-target-min flex items-center justify-center bg-surface-container-lowest rounded-full squishy shadow-sm">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<div class="flex flex-col items-center">
+<h1 class="font-headline-md text-headline-md text-on-primary-fixed-variant">Yardım ve Rehber</h1>
+<p class="font-label-md text-label-md text-on-secondary-fixed-variant opacity-80">Luluna’yı daha verimli kullanın</p>
+</div>
+<button class="w-touch-target-min h-touch-target-min flex items-center justify-center bg-surface-container-lowest rounded-full squishy shadow-sm">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+</div>
+<!-- Search Bar -->
+<div class="relative mt-lg">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full h-[64px] pl-[56px] pr-md bg-surface-container-lowest border-2 border-transparent focus:border-primary focus:ring-0 rounded-full font-body-md text-on-surface shadow-sm transition-all duration-300 outline-none" placeholder="Nasıl yardımcı olabiliriz?" type="text"/>
+</div>
+</header>
+<main class="px-container-margin space-y-xl">
+<!-- Category Grid -->
+<section>
+<div class="grid grid-cols-2 gap-md">
+<div class="bg-primary-fixed text-on-primary-fixed-variant p-lg rounded-lg soft-shadow squishy cursor-pointer flex flex-col gap-sm border border-white/20">
+<span class="material-symbols-outlined text-[32px]">menu_book</span>
+<span class="font-headline-sm text-label-lg">Başlangıç Kılavuzu</span>
+</div>
+<div class="bg-secondary-fixed text-on-secondary-fixed-variant p-lg rounded-lg soft-shadow squishy cursor-pointer flex flex-col gap-sm border border-white/20">
+<span class="material-symbols-outlined text-[32px]">play_lesson</span>
+<span class="font-headline-sm text-label-lg">Nasıl Kullanılır?</span>
+</div>
+<div class="bg-tertiary-fixed text-on-tertiary-fixed-variant p-lg rounded-lg soft-shadow squishy cursor-pointer flex flex-col gap-sm border border-white/20">
+<span class="material-symbols-outlined text-[32px]">family_restroom</span>
+<span class="font-headline-sm text-label-lg">Ebeveyn İçin İpuçları</span>
+</div>
+<div class="bg-surface-container-highest text-on-surface-variant p-lg rounded-lg soft-shadow squishy cursor-pointer flex flex-col gap-sm border border-white/20">
+<span class="material-symbols-outlined text-[32px]">psychology</span>
+<span class="font-headline-sm text-label-lg">Pedagojik Bilgiler</span>
+</div>
+<div class="bg-surface-container-highest text-on-surface-variant p-lg rounded-lg soft-shadow squishy cursor-pointer flex flex-col gap-sm border border-white/20">
+<span class="material-symbols-outlined text-[32px]">quiz</span>
+<span class="font-headline-sm text-label-lg">Sıkça Sorulan Sorular</span>
+</div>
+<div class="bg-primary-container text-on-primary-container p-lg rounded-lg soft-shadow squishy cursor-pointer flex flex-col gap-sm border border-white/20">
+<span class="material-symbols-outlined text-[32px]">support_agent</span>
+<span class="font-headline-sm text-label-lg">İletişim ve Destek</span>
+</div>
+</div>
+</section>
+<!-- Video Tutorial Card -->
+<section>
+<div class="flex items-center justify-between mb-md">
+<h2 class="font-headline-sm text-headline-sm">Öne Çıkan Eğitim</h2>
+<button class="text-primary font-label-lg">Tümünü Gör</button>
+</div>
+<div class="relative overflow-hidden rounded-lg bg-surface-container-low border border-outline-variant/30 soft-shadow group">
+<div class="aspect-video w-full relative">
+<img class="w-full h-full object-cover grayscale-[0.2] group-hover:scale-105 transition-transform duration-700" data-alt="A serene, soft-focus video thumbnail showing a young child with autism engaging happily with a digital learning tablet in a bright, sunlit room with pastel wall colors. The environment is calm, organized, and inviting, featuring minimalist wooden toys in the background. A large, translucent blue play button is centered over the image, suggesting a gentle educational video content." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFKPCSAEspta7e4ZP8BI_XXA8aVyZ9i4vq5D9659-XskCUVkK2aZby3APPWjbFvID--rvZsGPqB3hngcew-vLFGQO7RYX3qbCktpDn7yZsaQQhxLSZipJjGXcjIU6zU6ZFQrbppQXjDoKy8KkZk2pj9c0wpf9egvQURqC4eTxYMaYkU9G0Y7ycpU3hkYR0UB2iCADx6jOTplQDgZj5mDpmFU5jNXHIcHFTxlPJhiLxXeMYNC93nQ0C8GAd2Kiu0Fo7427Od1EmWRc"/>
+<div class="absolute inset-0 bg-black/10 flex items-center justify-center">
+<div class="w-16 h-16 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-[40px]" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+</div>
+<div class="p-lg">
+<h3 class="font-headline-sm text-headline-sm mb-xs">Nesne Tanıma İlk Adım</h3>
+<p class="text-on-surface-variant font-body-md">Çocuğunuzun çevresindeki nesneleri eğlenerek tanımasını sağlayın.</p>
+</div>
+</div>
+</section>
+<!-- Tip Box -->
+<section class="bg-secondary-fixed/30 p-lg rounded-lg border-2 border-secondary-fixed flex gap-md items-start">
+<div class="bg-secondary text-on-secondary p-sm rounded-full">
+<span class="material-symbols-outlined">lightbulb</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-label-lg mb-xs">Günün İpucu</h4>
+<p class="text-on-secondary-fixed-variant font-body-md italic">"Çocuğunuzla birlikte nesneleri sesli tekrar edin. Bu, kelime dağarcığının gelişmesine yardımcı olur."</p>
+</div>
+</section>
+<!-- FAQ Accordion -->
+<section class="space-y-md">
+<h2 class="font-headline-sm text-headline-sm">Sıkça Sorulan Sorular</h2>
+<div class="space-y-sm">
+<div class="bg-surface-container-lowest p-lg rounded-lg border border-outline-variant/30 soft-shadow flex items-center justify-between">
+<span class="font-label-lg text-on-surface">Nesne algılama çalışmıyorsa ne yapmalıyım?</span>
+<span class="material-symbols-outlined text-outline">expand_more</span>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-lg border border-outline-variant/30 soft-shadow flex items-center justify-between">
+<span class="font-label-lg text-on-surface">Abonelik iptalini nasıl yaparım?</span>
+<span class="material-symbols-outlined text-outline">expand_more</span>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-lg border border-outline-variant/30 soft-shadow flex items-center justify-between">
+<span class="font-label-lg text-on-surface">İlerleme raporlarını nereden görebilirim?</span>
+<span class="material-symbols-outlined text-outline">expand_more</span>
+</div>
+</div>
+</section>
+<!-- Bottom Actions -->
+<section class="flex flex-col gap-md pt-lg">
+<button class="w-full h-[56px] bg-primary text-on-primary rounded-full font-headline-sm squishy shadow-lg flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined">chat</span>
+                Destek Ekibiyle Görüş
+            </button>
+<button class="w-full h-[56px] bg-surface-container-highest text-on-surface-variant rounded-full font-headline-sm squishy flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined">feedback</span>
+                Geri Bildirim Gönder
+            </button>
+<div class="text-center mt-md opacity-40">
+<p class="font-label-md">Versiyon 2.4.1 (Luluna AI)</p>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-lg pb-md">
+<div class="bg-surface-container-highest/90 backdrop-blur-lg rounded-full mb-lg mx-container-margin w-full flex justify-around items-center py-sm shadow-lg shadow-primary/10 border border-outline-variant/30">
+<a class="flex flex-col items-center justify-center text-on-secondary-container px-lg py-xs hover:bg-secondary-container/50 rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="photo_camera">photo_camera</span>
+<span class="font-label-md text-label-md">Scan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-container px-lg py-xs hover:bg-secondary-container/50 rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+<span class="font-label-md text-label-md">Lessons</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-container px-lg py-xs hover:bg-secondary-container/50 rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="auto_graph">auto_graph</span>
+<span class="font-label-md text-label-md">Growth</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-full px-lg py-xs scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="help" style="font-variation-settings: 'FILL' 1;">help</span>
+<span class="font-label-md text-label-md">Help</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-container px-lg py-xs hover:bg-secondary-container/50 rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</div>
+</nav>
+</body></html>

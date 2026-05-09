@@ -3,6 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../theme/app_theme.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
@@ -89,18 +90,20 @@ class _CameraScreenState extends State<CameraScreen> {
       builder: (context) => AlertDialog(
         title: Text(
           'Kamera İzni Gerekli',
-          style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+          style: AppTheme.headlineSmall,
         ),
         content: Text(
           'Luluna\'nın çevrenizdeki nesneleri tanıyabilmesi için kamera izni gereklidir.',
-          style: GoogleFonts.poppins(),
+          style: AppTheme.bodyMedium,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
               'İptal',
-              style: GoogleFonts.poppins(color: Colors.grey),
+              style: AppTheme.labelLarge.copyWith(
+                color: AppTheme.onSurfaceVariant,
+              ),
             ),
           ),
           ElevatedButton(
@@ -108,12 +111,9 @@ class _CameraScreenState extends State<CameraScreen> {
               Navigator.pop(context);
               _initializeCamera();
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFABC4FF),
-            ),
             child: Text(
               'Tekrar Dene',
-              style: GoogleFonts.poppins(color: Colors.white),
+              style: AppTheme.labelLarge,
             ),
           ),
         ],
@@ -192,22 +192,13 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
-        backgroundColor: const Color(0xFFABC4FF),
-        elevation: 0,
         title: Text(
           'Luluna',
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
+          style: AppTheme.headlineSmall,
         ),
         centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
       ),
       body: SafeArea(
         child: Column(
@@ -216,14 +207,14 @@ class _CameraScreenState extends State<CameraScreen> {
             Expanded(
               flex: 3,
               child: Container(
-                margin: const EdgeInsets.all(16),
+                margin: const EdgeInsets.all(AppTheme.containerMargin),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withOpacity(0.05),
                       blurRadius: 10,
-                      offset: const Offset(0, 5),
+                      offset: const Offset(0, 2),
                     ),
                   ],
                 ),
@@ -238,32 +229,30 @@ class _CameraScreenState extends State<CameraScreen> {
             Expanded(
               flex: 1,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: AppTheme.containerMargin),
                 child: Column(
                   children: [
                     // Tespit edilen nesne
                     if (_detectedObject != null)
                       Container(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(AppTheme.md),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFBEE1E6),
+                          color: AppTheme.secondaryContainer,
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Row(
                           children: [
                             const Icon(
                               Icons.search,
-                              color: Color(0xFF2C3E50),
+                              color: AppTheme.onSecondaryContainer,
                               size: 24,
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: AppTheme.sm),
                             Expanded(
                               child: Text(
                                 'Tespit edilen: $_detectedObject',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xFF2C3E50),
+                                style: AppTheme.labelLarge.copyWith(
+                                  color: AppTheme.onSecondaryContainer,
                                 ),
                               ),
                             ),
@@ -271,31 +260,29 @@ class _CameraScreenState extends State<CameraScreen> {
                         ),
                       ),
                     
-                    const SizedBox(height: 12),
+                    const SizedBox(height: AppTheme.md),
                     
                     // Soru
                     if (_currentQuestion != null)
                       Container(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(AppTheme.md),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFABC4FF),
+                          color: AppTheme.primaryContainer,
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Row(
                           children: [
                             const Icon(
                               Icons.help_outline,
-                              color: Colors.white,
+                              color: AppTheme.onPrimaryContainer,
                               size: 24,
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: AppTheme.sm),
                             Expanded(
                               child: Text(
                                 _currentQuestion!,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white,
+                                style: AppTheme.labelLarge.copyWith(
+                                  color: AppTheme.onPrimaryContainer,
                                 ),
                               ),
                             ),
@@ -309,7 +296,7 @@ class _CameraScreenState extends State<CameraScreen> {
             
             // Kontrol butonları
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(AppTheme.containerMargin),
               child: Row(
                 children: [
                   // Tespit butonu
@@ -318,12 +305,12 @@ class _CameraScreenState extends State<CameraScreen> {
                       height: 60,
                       decoration: BoxDecoration(
                         color: _isProcessing 
-                            ? Colors.grey.shade300 
-                            : const Color(0xFFABC4FF),
+                            ? AppTheme.surfaceContainerHigh
+                            : AppTheme.primary,
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFFABC4FF).withOpacity(0.3),
+                            color: AppTheme.primary.withOpacity(0.2),
                             blurRadius: 10,
                             offset: const Offset(0, 5),
                           ),
@@ -340,7 +327,7 @@ class _CameraScreenState extends State<CameraScreen> {
                                     width: 24,
                                     height: 24,
                                     child: CircularProgressIndicator(
-                                      color: Colors.white,
+                                      color: AppTheme.onPrimary,
                                       strokeWidth: 2,
                                     ),
                                   )
@@ -349,16 +336,14 @@ class _CameraScreenState extends State<CameraScreen> {
                                     children: [
                                       const Icon(
                                         Icons.camera,
-                                        color: Colors.white,
+                                        color: AppTheme.onPrimary,
                                         size: 24,
                                       ),
-                                      const SizedBox(width: 8),
+                                      const SizedBox(width: AppTheme.sm),
                                       Text(
                                         'Nesne Tespit Et',
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white,
+                                        style: AppTheme.labelLarge.copyWith(
+                                          color: AppTheme.onPrimary,
                                         ),
                                       ),
                                     ],
@@ -380,22 +365,21 @@ class _CameraScreenState extends State<CameraScreen> {
   Widget _buildCameraWidget() {
     if (!_isPermissionGranted) {
       return Container(
-        color: Colors.grey.shade200,
-        child: const Center(
+        color: AppTheme.surfaceContainerLow,
+        child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 Icons.camera_alt_outlined,
                 size: 80,
-                color: Colors.grey,
+                color: AppTheme.onSurfaceVariant,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: AppTheme.md),
               Text(
                 'Kamera izni gerekli',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey,
+                style: AppTheme.bodyLarge.copyWith(
+                  color: AppTheme.onSurfaceVariant,
                 ),
               ),
             ],
@@ -406,10 +390,10 @@ class _CameraScreenState extends State<CameraScreen> {
     
     if (!_isCameraInitialized) {
       return Container(
-        color: Colors.black,
+        color: AppTheme.surface,
         child: const Center(
           child: CircularProgressIndicator(
-            color: Color(0xFFABC4FF),
+            color: AppTheme.primary,
           ),
         ),
       );

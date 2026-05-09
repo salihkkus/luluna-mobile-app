@@ -30,6 +30,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  
   # Gelecekte logo veya özel ikonlar eklemek isterseniz assets klasörünü buradan aktif edebilirsiniz.
   # assets:
   #   - assets/images/

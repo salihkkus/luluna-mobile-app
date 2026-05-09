@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Luluna - Splash Screen</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Lexend:wght@400;500;600&amp;family=Poppins:wght@700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#abc4ff",
+                        "on-surface": "#1a1b1f",
+                        "on-secondary-fixed": "#001f23",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#5d4200",
+                        "on-secondary": "#ffffff",
+                        "outline": "#747780",
+                        "surface-container-low": "#f4f3f8",
+                        "surface-container-highest": "#e3e2e7",
+                        "secondary-fixed-dim": "#aacdd2",
+                        "on-primary-fixed": "#001a43",
+                        "on-background": "#1a1b1f",
+                        "primary-fixed": "#d8e2ff",
+                        "on-surface-variant": "#44474f",
+                        "surface-tint": "#455e92",
+                        "on-secondary-fixed-variant": "#2b4c50",
+                        "on-primary-fixed-variant": "#2c4678",
+                        "tertiary-fixed": "#ffdea3",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#c6e9ee",
+                        "tertiary-container": "#e9be69",
+                        "inverse-surface": "#2f3034",
+                        "surface-container-high": "#e9e7ec",
+                        "secondary-container": "#c3e6eb",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#dad9de",
+                        "error-container": "#ffdad6",
+                        "primary": "#455e92",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#ecc06b",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#faf8fe",
+                        "on-secondary-container": "#47686c",
+                        "on-tertiary-container": "#694c00",
+                        "inverse-primary": "#aec6ff",
+                        "tertiary": "#79590a",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#aec6ff",
+                        "on-tertiary-fixed": "#261900",
+                        "surface-container": "#efedf2",
+                        "background": "#faf8fe",
+                        "on-primary-container": "#375084",
+                        "secondary": "#436468",
+                        "inverse-on-surface": "#f1f0f5",
+                        "surface-variant": "#e3e2e7",
+                        "surface": "#faf8fe",
+                        "outline-variant": "#c4c6d0",
+                        "mint-accent": "#BEE1E6",
+                        "pink-accent": "#FFB4B4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "touch-target-min": "48px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "xl": "32px",
+                        "container-margin": "20px",
+                        "unit": "4px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "body-md": ["Lexend"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Lexend"],
+                        "label-lg": ["Lexend"],
+                        "body-lg": ["Lexend"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "poppins": ["Poppins"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .breathing-glow {
+            box-shadow: 0 0 40px 10px rgba(171, 196, 255, 0.3);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen overflow-hidden">
+<!-- Splash Canvas -->
+<div class="relative w-full h-screen flex flex-col justify-between items-center bg-gradient-to-b from-[#F8F9FA] to-[#ABC4FF] overflow-hidden">
+<!-- Abstract Blurry Shapes -->
+<div class="absolute -top-20 -left-20 w-64 h-64 bg-mint-accent/40 rounded-full blur-[80px]"></div>
+<div class="absolute top-1/4 -right-10 w-48 h-48 bg-pink-accent/40 rounded-full blur-[60px]"></div>
+<div class="absolute bottom-1/3 left-1/4 w-32 h-32 bg-primary-container/30 rounded-full blur-[50px]"></div>
+<!-- Star/Moon Particles -->
+<div class="absolute inset-0 pointer-events-none opacity-40">
+<span class="material-symbols-outlined absolute text-[12px] top-[10%] left-[15%] text-on-surface-variant">colors_spark</span>
+<span class="material-symbols-outlined absolute text-[8px] top-[25%] left-[80%] text-on-surface-variant">star</span>
+<span class="material-symbols-outlined absolute text-[10px] top-[60%] left-[10%] text-on-surface-variant">star</span>
+<span class="material-symbols-outlined absolute text-[14px] top-[80%] left-[70%] text-on-surface-variant">auto_awesome</span>
+<span class="material-symbols-outlined absolute text-[12px] top-[40%] left-[50%] text-on-surface-variant">circle</span>
+</div>
+<!-- Center Content -->
+<div class="flex-1 flex flex-col items-center justify-center z-10 px-container-margin">
+<!-- Logo Section -->
+<div class="relative mb-xl flex items-center justify-center">
+<!-- Background breathing glow effect -->
+<div class="absolute w-40 h-40 breathing-glow rounded-full"></div>
+<!-- Glassmorphism Container for Logo -->
+<div class="w-48 h-48 glass-panel rounded-full flex items-center justify-center p-md border border-white/40 shadow-xl overflow-hidden">
+<img alt="Luluna Logo" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0uhlgNrpkyYfialOPGo-EE92RAc0TAkJqv13TnuwHBPonVF9CzjkgwptVKnyRuoXPRGYp9FlFbgt2CWZcdvPlIM1p-JGtugJrVtgQoUcWjXsYReXrFj6wsnwyDBJ1vOXZ0csvTqVx59ln-8RjmDT8KdtrKzNPzu9fHbzndu8ihQTASf2k2iXmtfv4olwVAuYlQQOQWts1HMN0tgxNjBU6dD_OxqM9Agb1XEHMkZj-f1CgLm7lNUSjSlBzg"/>
+</div>
+</div>
+<!-- Brand Identity -->
+<div class="text-center">
+<h1 class="font-poppins text-[48px] leading-tight text-on-surface font-bold tracking-tight">
+                    Luluna
+                </h1>
+<p class="font-body-lg text-on-surface-variant mt-sm tracking-wide">
+                    Hadi keşfedelim
+                </p>
+</div>
+</div>
+<!-- Bottom Section: CTA -->
+<div class="w-full px-container-margin pb-xl z-20">
+<button class="w-full bg-gradient-to-r from-primary to-primary-container h-[64px] rounded-lg shadow-lg shadow-primary/20 flex items-center justify-between px-xl active:scale-95 transition-all duration-200">
+<span class="text-on-primary font-headline-sm tracking-wide">Başlayalım</span>
+<span class="material-symbols-outlined text-on-primary text-[28px]">arrow_forward</span>
+</button>
+<!-- Soft spacing at the very bottom -->
+<div class="h-md"></div>
+</div>
+</div>
+<!-- Hidden standard nav shell suppressed for splash screen as per "Relevance Check" -->
+</body></html>

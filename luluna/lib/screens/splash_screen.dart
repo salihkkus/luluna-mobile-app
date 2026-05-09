@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'camera_screen.dart';
+import 'main_navigation_screen.dart';
+import '../theme/app_theme.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -70,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA), // Off-white arka plan
+      backgroundColor: AppTheme.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(32.0),
@@ -94,11 +95,11 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                               width: 120,
                               height: 120,
                               decoration: BoxDecoration(
-                                color: const Color(0xFFABC4FF), // Yumuşak mavi
+                                color: AppTheme.primaryContainer,
                                 borderRadius: BorderRadius.circular(30),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: const Color(0xFFABC4FF).withOpacity(0.3),
+                                    color: AppTheme.primary.withOpacity(0.2),
                                     blurRadius: 20,
                                     offset: const Offset(0, 10),
                                   ),
@@ -107,7 +108,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                               child: const Icon(
                                 Icons.nightlight_round,
                                 size: 60,
-                                color: Colors.white,
+                                color: AppTheme.onPrimaryContainer,
                               ),
                             ),
                             
@@ -116,10 +117,9 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                             // luluna yazısı
                             Text(
                               'luluna',
-                              style: GoogleFonts.poppins(
+                              style: AppTheme.headlineLarge.copyWith(
                                 fontSize: 48,
-                                fontWeight: FontWeight.w700,
-                                color: const Color(0xFFABC4FF),
+                                color: AppTheme.primary,
                                 letterSpacing: 2.0,
                               ),
                             ),
@@ -130,10 +130,8 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                             Text(
                               'Gözleriyle Keşfeden Çocuklar İçin',
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: const Color(0xFF6C757D),
+                              style: AppTheme.bodyMedium.copyWith(
+                                color: AppTheme.onSurfaceVariant,
                                 height: 1.5,
                               ),
                             ),
@@ -157,11 +155,11 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                         width: double.infinity,
                         height: 60,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFBEE1E6), // Mint yeşili
+                          color: AppTheme.secondaryContainer,
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFFBEE1E6).withOpacity(0.4),
+                              color: AppTheme.secondary.withOpacity(0.3),
                               blurRadius: 15,
                               offset: const Offset(0, 8),
                             ),
@@ -176,17 +174,16 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const CameraScreen(),
+                                  builder: (context) => const MainNavigationScreen(),
                                 ),
                               );
                             },
                             child: Center(
                               child: Text(
                                 'Hadi Keşfedelim!',
-                                style: GoogleFonts.poppins(
+                                style: AppTheme.labelLarge.copyWith(
                                   fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFF2C3E50),
+                                  color: AppTheme.onSecondaryContainer,
                                 ),
                               ),
                             ),
