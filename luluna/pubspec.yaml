@@ -22,6 +22,17 @@ dependencies:
   cupertino_icons: ^1.0.2
   # Wildcard önerisi: Sakinleştirici animasyonlar eklemek isterseniz kullanışlıdır
   lottie: ^3.1.0
+  # AI Model için alternatif paketler
+  # tflite_flutter namespace sorunu nedeniyle geçici olarak kaldırıldı
+  # Doğu'nun modeli gelince tekrar eklenecek
+  # Görüntü işleme için
+  image: ^4.0.17
+  # Path operations
+  path: ^1.8.3
+  # SQLite veritabanı için
+  sqflite: ^2.3.0
+  # Veritabanı dosyasının yolunu almak için
+  path_provider: ^2.1.1
 
 dev_dependencies:
   flutter_test:
@@ -31,6 +42,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   
+  # AI Model ve Label dosyaları
+  assets:
+    - assets/models/
   # Gelecekte logo veya özel ikonlar eklemek isterseniz assets klasörünü buradan aktif edebilirsiniz.
   # assets:
   #   - assets/images/

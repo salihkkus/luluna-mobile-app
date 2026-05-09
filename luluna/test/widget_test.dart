@@ -11,20 +11,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:luluna/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Luluna app smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(const LulunaApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that splash screen appears
+    expect(find.text('Luluna'), findsOneWidget);
+    expect(find.text('Hadi Keşfedelim'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Tap the start button
+    await tester.tap(find.text('Hadi Keşfedelim'));
+    await tester.pumpAndSettle();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that main navigation appears
+    expect(find.byIcon(Icons.camera_alt), findsOneWidget);
+    expect(find.byIcon(Icons.show_chart), findsOneWidget);
+    expect(find.byIcon(Icons.settings), findsOneWidget);
+    expect(find.byIcon(Icons.help_outline), findsOneWidget);
   });
 }

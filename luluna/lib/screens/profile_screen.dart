@@ -14,6 +14,17 @@ class _ProfileScreenState extends State<ProfileScreen>
   late TabController _tabController;
   String _selectedPeriod = 'weekly';
 
+  // Çocuk profili verileri
+  final Map<String, dynamic> _childProfile = {
+    'id': '1',
+    'name': 'Ali Yılmaz',
+    'age': 8,
+    'image': 'assets/models/otizm.png',
+    'totalDetections': 156,
+    'weeklyGrowth': 23,
+    'successRate': 85,
+  };
+
   // Mock veri - gerçek uygulamada veritabanından gelecek
   final Map<String, dynamic> _mockData = {
     'totalDetections': 124,
@@ -81,7 +92,10 @@ class _ProfileScreenState extends State<ProfileScreen>
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppTheme.containerMargin),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppTheme.containerMargin,
+          vertical: AppTheme.containerMargin,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -127,56 +141,148 @@ class _ProfileScreenState extends State<ProfileScreen>
           ),
         ],
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Profil Fotoğrafı
+          // Profil Başlığı
+          Row(
+            children: [
+              Icon(
+                Icons.person,
+                color: AppTheme.primary,
+                size: 24,
+              ),
+              const SizedBox(width: AppTheme.sm),
+              Text(
+                'Çocuk Profili',
+                style: AppTheme.headlineSmall,
+              ),
+            ],
+          ),
+          const SizedBox(height: AppTheme.md),
+          
+          // Profil Kartı
           Container(
-            width: 80,
-            height: 80,
+            padding: const EdgeInsets.all(AppTheme.sm),
             decoration: BoxDecoration(
               color: AppTheme.primaryContainer,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: AppTheme.primary.withOpacity(0.3),
+                width: 1,
+              ),
             ),
-            child: const Icon(
-              Icons.child_care,
-              size: 40,
-              color: AppTheme.primary,
-            ),
-          ),
-          const SizedBox(width: AppTheme.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
               children: [
-                Text(
-                  'Çocuk Adı',
-                  style: AppTheme.headlineSmall,
-                ),
-                const SizedBox(height: AppTheme.xs),
-                Text(
-                  'Yaş: 6 yaş',
-                  style: AppTheme.bodyMedium.copyWith(
-                    color: AppTheme.onSurfaceVariant,
+                // Profil Fotoğrafı
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppTheme.primary.withOpacity(0.2),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.asset(
+                      _childProfile['image'] as String,
+                      width: 80,
+                      height: 80,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: AppTheme.surfaceContainer,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Icon(
+                            Icons.person,
+                            size: 40,
+                            color: AppTheme.onSurfaceVariant,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
-                const SizedBox(height: AppTheme.xs),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.calendar_today,
-                      size: 16,
-                      color: AppTheme.primary,
-                    ),
-                    const SizedBox(width: AppTheme.xs),
-                    Text(
-                      'Katılım: 3 ay',
-                      style: AppTheme.bodySmall.copyWith(
-                        color: AppTheme.onSurfaceVariant,
+                const SizedBox(width: AppTheme.sm),
+                
+                // Profil Bilgileri
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _childProfile['name'] as String,
+                        style: AppTheme.headlineSmall.copyWith(
+                          color: AppTheme.onPrimaryContainer,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: AppTheme.xs),
+                      Text(
+                        '${_childProfile['age']} yaş',
+                        style: AppTheme.bodyMedium.copyWith(
+                          color: AppTheme.onPrimaryContainer.withOpacity(0.8),
+                        ),
+                      ),
+                      const SizedBox(height: AppTheme.sm),
+                      Row(
+                        children: [
+                          _buildInfoChip(
+                            Icons.trending_up,
+                            'Bu hafta +%${_childProfile['weeklyGrowth']}',
+                            AppTheme.primary,
+                          ),
+                          const SizedBox(width: AppTheme.sm),
+                          _buildInfoChip(
+                            Icons.emoji_events,
+                            '%${_childProfile['successRate']} başarı',
+                            AppTheme.primary,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoChip(IconData icon, String text, Color color) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: AppTheme.sm, vertical: AppTheme.xs),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.15),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 14,
+            color: color,
+          ),
+          const SizedBox(width: AppTheme.xs),
+          Text(
+            text,
+            style: AppTheme.bodySmall.copyWith(
+              color: color,
+              fontWeight: FontWeight.w500,
+              fontSize: 10,
             ),
           ),
         ],
@@ -195,25 +301,25 @@ class _ProfileScreenState extends State<ProfileScreen>
       children: [
         _buildSummaryCard(
           '🎯\nToplam Tespit',
-          '${_mockData['totalDetections']}',
+          '${_childProfile['totalDetections']}',
           AppTheme.primaryContainer,
           AppTheme.primary,
         ),
         _buildSummaryCard(
           '📈\nHaftalık Artış',
-          '+${_mockData['weeklyGrowth']}%',
+          '+${_childProfile['weeklyGrowth']}%',
           AppTheme.secondaryContainer,
           AppTheme.secondary,
         ),
         _buildSummaryCard(
           '⏰\nOrtalama Süre',
-          '${_mockData['averageTime']} dk',
+          '25 dk',
           AppTheme.tertiaryContainer,
           AppTheme.tertiary,
         ),
         _buildSummaryCard(
-          '🏆\nEn Çok Tespit',
-          '${_mockData['mostDetected']}',
+          '🏆\nBaşarı Oranı',
+          '%${_childProfile['successRate']}',
           AppTheme.errorContainer,
           AppTheme.error,
         ),

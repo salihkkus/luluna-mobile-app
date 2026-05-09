@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'main_navigation_screen.dart';
+import 'package:flutter/services.dart';
 import '../theme/app_theme.dart';
+import 'main_navigation_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -10,7 +10,8 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
   late AnimationController _logoController;
   late AnimationController _buttonController;
   late Animation<double> _logoAnimation;
@@ -19,19 +20,14 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   @override
   void initState() {
     super.initState();
-    
-    // Logo animasyonu
     _logoController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    
-    // Buton animasyonu
     _buttonController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    
     _logoAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -39,7 +35,6 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
       parent: _logoController,
       curve: Curves.easeInOut,
     ));
-    
     _buttonAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -47,11 +42,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
       parent: _buttonController,
       curve: Curves.elasticOut,
     ));
-    
-    // Logo animasyonunu başlat
     _logoController.forward();
-    
-    // Logo animasyonu bittikten sonra butonu göster
     _logoController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         Future.delayed(const Duration(milliseconds: 500), () {
@@ -76,9 +67,8 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
         child: Padding(
           padding: const EdgeInsets.all(32.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Logo ve başlık
               Expanded(
                 flex: 3,
                 child: Center(
@@ -90,7 +80,6 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // 🌙 Logo
                             Container(
                               width: 120,
                               height: 120,
@@ -111,22 +100,15 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                                 color: AppTheme.onPrimaryContainer,
                               ),
                             ),
-                            
                             const SizedBox(height: 32),
-                            
-                            // luluna yazısı
                             Text(
                               'luluna',
                               style: AppTheme.headlineLarge.copyWith(
-                                fontSize: 48,
                                 color: AppTheme.primary,
-                                letterSpacing: 2.0,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
-                            
-                            const SizedBox(height: 16),
-                            
-                            // Alt başlık
+                            const SizedBox(height: 8),
                             Text(
                               'Gözleriyle Keşfeden Çocuklar İçin',
                               textAlign: TextAlign.center,
@@ -142,60 +124,64 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                   ),
                 ),
               ),
-              
-              // Hadi Keşfedelim butonu
-              AnimatedBuilder(
-                animation: _buttonAnimation,
-                builder: (context, child) {
-                  return Transform.scale(
-                    scale: _buttonAnimation.value,
-                    child: Opacity(
-                      opacity: _buttonAnimation.value,
-                      child: Container(
-                        width: double.infinity,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          color: AppTheme.secondaryContainer,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppTheme.secondary.withOpacity(0.3),
-                              blurRadius: 15,
-                              offset: const Offset(0, 8),
-                            ),
-                          ],
-                        ),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(20),
-                            onTap: () {
-                              // Ana ekrana geçiş yapılacak
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const MainNavigationScreen(),
+              Expanded(
+                flex: 1,
+                child: Center(
+                  child: AnimatedBuilder(
+                    animation: _buttonAnimation,
+                    builder: (context, child) {
+                      final scaleValue = _buttonAnimation.value.clamp(0.0, 1.0);
+                      final opacityValue = _buttonAnimation.value.clamp(0.0, 1.0);
+                      return Transform.scale(
+                        scale: scaleValue,
+                        child: Opacity(
+                          opacity: opacityValue,
+                          child: Container(
+                            width: double.infinity,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color: AppTheme.secondaryContainer,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppTheme.secondary.withOpacity(0.3),
+                                  blurRadius: 15,
+                                  offset: const Offset(0, 8),
                                 ),
-                              );
-                            },
-                            child: Center(
-                              child: Text(
-                                'Hadi Keşfedelim!',
-                                style: AppTheme.labelLarge.copyWith(
-                                  fontSize: 18,
-                                  color: AppTheme.onSecondaryContainer,
+                              ],
+                            ),
+                            child: Material(
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(20),
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(20),
+                                onTap: () {
+                                  HapticFeedback.lightImpact();
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const MainNavigationScreen(),
+                                    ),
+                                  );
+                                },
+                                child: Center(
+                                  child: Text(
+                                    'Hadi Keşfedelim!',
+                                    style: AppTheme.labelLarge.copyWith(
+                                      fontSize: 18,
+                                      color: AppTheme.onSecondaryContainer,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                  );
-                },
+                      );
+                    },
+                  ),
+                ),
               ),
-              
-              const SizedBox(height: 20),
             ],
           ),
         ),

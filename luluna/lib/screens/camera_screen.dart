@@ -3,7 +3,9 @@ import 'package:camera/camera.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:typed_data';
 import '../theme/app_theme.dart';
+import '../services/detection_service.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
@@ -18,16 +20,12 @@ class _CameraScreenState extends State<CameraScreen> {
   bool _isPermissionGranted = false;
   List<CameraDescription> _cameras = [];
   FlutterTts _flutterTts = FlutterTts();
-  
-  // Mock veri - daha sonra gerçek AI modeli ile değiştirilecek
-  final List<String> _mockObjects = [
-    'elma', 'kitap', 'telefon', 'kalem', 'bardak',
-    'çanta', 'saat', 'anahtar', 'gözlük', 'çorap'
-  ];
+  final DetectionService _detectionService = DetectionService.instance;
   
   String? _detectedObject;
   String? _currentQuestion;
   bool _isProcessing = false;
+  DetectionResult? _lastDetectionResult;
 
   @override
   void initState() {
@@ -40,6 +38,7 @@ class _CameraScreenState extends State<CameraScreen> {
   void dispose() {
     _controller?.dispose();
     _flutterTts.stop();
+    _detectionService.dispose();
     super.dispose();
   }
 
@@ -121,41 +120,99 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 
-  // Mock nesne tespiti - gerçek AI yerine simülasyon
-  void _detectObject() {
-    if (_isProcessing) return;
+  // Mock AI nesne tespiti (TensorFlow Lite geçici olarak devre dışı)
+  Future<void> _detectObject() async {
+    if (_isProcessing || _controller == null) return;
     
     setState(() {
       _isProcessing = true;
+      _detectedObject = null;
+      _currentQuestion = null;
     });
     
-    // Simüle edilmiş tespit işlemi
-    Future.delayed(const Duration(seconds: 2), () {
+    try {
+      // Şimdilik doğrudan mock detection kullanıyoruz
+      // Doğu'nun modeli gelince gerçek AI entegrasyonu aktif edilecek
+      print('🔄 Using mock detection (TensorFlow Lite temporarily disabled)');
+      
+      // Mock detection simülasyonu
+      await Future.delayed(const Duration(milliseconds: 800));
+      
+      // Mock nesnelerden rastgele seçim
+      final mockObjects = ['salih', 'sümeyye', 'doğu', 'kerem', 'ceren'];
+      final randomIndex = DateTime.now().millisecondsSinceEpoch % mockObjects.length;
+      final detectedObject = mockObjects[randomIndex];
+      final confidence = 0.75 + (DateTime.now().millisecondsSinceEpoch % 25) / 100.0;
+      
       if (mounted) {
-        final randomObject = _mockObjects[
-          (DateTime.now().millisecondsSinceEpoch % _mockObjects.length)
-        ];
-        
         setState(() {
-          _detectedObject = randomObject;
+          _detectedObject = detectedObject;
           _isProcessing = false;
         });
         
         // Tespit edilen nesneyi seslendir
-        _speakObject(randomObject);
+        _speakObject(detectedObject, confidence);
         
         // 3 saniye sonra soru sor
         Future.delayed(const Duration(seconds: 3), () {
           if (mounted) {
-            _askQuestion(randomObject);
+            _askQuestion(detectedObject);
           }
         });
+      }
+      
+    } catch (e) {
+      print('❌ Detection error: $e');
+      
+      if (mounted) {
+        setState(() {
+          _isProcessing = false;
+        });
+        
+        // Hata durumunda mock kullan
+        _performMockDetection();
+      }
+    }
+  }
+
+  // Mock detection fallback
+  void _performMockDetection() {
+    final mockObjects = ['salih', 'sümeyye', 'doğu', 'kerem', 'ceren'];
+    final randomObject = mockObjects[
+      (DateTime.now().millisecondsSinceEpoch % mockObjects.length)
+    ];
+    
+    setState(() {
+      _detectedObject = randomObject;
+      _isProcessing = false;
+    });
+    
+    // Tespit edilen nesneyi seslendir
+    _speakObject(randomObject, 0.8);
+    
+    // 3 saniye sonra soru sor
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) {
+        _askQuestion(randomObject);
       }
     });
   }
 
-  Future<void> _speakObject(String object) async {
-    await _flutterTts.speak('Bak! Bu bir $object.');
+  // Basit CameraImage converter (gerçek uygulamada daha karmaşık olur)
+  Future<CameraImage> _convertToCameraImage(Uint8List imageBytes) async {
+    // Bu basitleştirilmiş bir versiyon
+    // Gerçek uygulamada kamera stream'i doğrudan kullanılır
+    // Şimdilik mock detection kullanacağımız için bu metoda ihtiyacımız yok
+    throw UnimplementedError('CameraImage conversion not implemented - using mock detection');
+  }
+
+  Future<void> _speakObject(String object, double confidence) async {
+    final confidenceText = (confidence * 100).toInt().toString();
+    await _flutterTts.speak('Bak! Bu bir $object. Güven: %$confidenceText.');
+  }
+
+  Future<void> _speakNoDetection() async {
+    await _flutterTts.speak('Hiçbir nesne tespit edilemedi. Tekrar deneyelim.');
   }
 
   void _askQuestion(String object) {
@@ -163,6 +220,21 @@ class _CameraScreenState extends State<CameraScreen> {
     
     // Nesneye göre uygun soru seç
     switch (object) {
+      case 'salih':
+        question = 'Salih ile ne oyun oynayabiliriz?';
+        break;
+      case 'sümeyye':
+        question = 'Sümeyne nasıl yardımcı olabiliriz?';
+        break;
+      case 'doğu':
+        question = 'Doğu ile neler paylaşabiliriz?';
+        break;
+      case 'kerem':
+        question = 'Kerem ne zaman mutlu olur?';
+        break;
+      case 'ceren':
+        question = 'Ceren en çok neyi sever?';
+        break;
       case 'elma':
         question = 'Bu elma hangi renk?';
         break;
@@ -179,7 +251,7 @@ class _CameraScreenState extends State<CameraScreen> {
         question = 'Bardak ne için kullanılır?';
         break;
       default:
-        question = 'Bu $object ne işe yarar?';
+        question = 'Bu $object hakkında ne söyleyebiliriz?';
     }
     
     setState(() {
