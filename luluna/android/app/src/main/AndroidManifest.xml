@@ -1,4 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Kamera izni -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- Ses kaydetme izni (TTS için gerekli olabilir) -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- Depolama izni -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:label="luluna"
         android:name="${applicationName}"

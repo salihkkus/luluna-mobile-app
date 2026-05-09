@@ -45,5 +45,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- Kamera izni açıklaması -->
+	<key>NSCameraUsageDescription</key>
+	<string>Luluna, çevrenizdeki nesneleri tanımak ve size sosyal yönlendirmeler sunmak için kamera iznine ihtiyaç duyar.</string>
+	<!-- Mikrofon izni açıklaması -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Luluna, sesli yönlendirmeler sunmak ve etkileşimleri geliştirmek için mikrofon iznine ihtiyaç duyar.</string>
 </dict>
 </plist>
