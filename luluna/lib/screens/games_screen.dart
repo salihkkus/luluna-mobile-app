@@ -10,6 +10,52 @@ class GamesScreen extends StatefulWidget {
 }
 
 class _GamesScreenState extends State<GamesScreen> {
+  // Oyun verileri
+  final List<GameData> games = [
+    GameData(
+      title: '🧩 Eşleştirme Oyunu',
+      description: 'Eşleştir ve kazan!',
+      icon: Icons.extension,
+      color: AppTheme.primary,
+      isComingSoon: false,
+    ),
+    GameData(
+      title: '🎨 Boyama Atölyesi',
+      description: 'Renklerle oyna!',
+      icon: Icons.palette,
+      color: AppTheme.secondary,
+      isComingSoon: false,
+    ),
+    GameData(
+      title: '🎵 Müzik Dünyası',
+      description: 'Notalarla dans et!',
+      icon: Icons.music_note,
+      color: AppTheme.tertiary,
+      isComingSoon: false,
+    ),
+    GameData(
+      title: '🧠 Zeka Oyunları',
+      description: 'Bulmacaları çöz!',
+      icon: Icons.psychology,
+      color: AppTheme.primary,
+      isComingSoon: false,
+    ),
+    GameData(
+      title: '📖 Hikaye Zamanı',
+      description: 'Masallara dal!',
+      icon: Icons.auto_stories,
+      color: AppTheme.secondary,
+      isComingSoon: false,
+    ),
+    GameData(
+      title: '🎯 Hedef Avı',
+      description: 'Hedefleri tuttur!',
+      icon: Icons.gps_fixed,
+      color: AppTheme.tertiary,
+      isComingSoon: false,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,83 +73,27 @@ class _GamesScreenState extends State<GamesScreen> {
               ),
               const SizedBox(height: AppTheme.md),
               Text(
-                'Yakında çok eğlenceli oyunlar eklenecek! 🎉',
+                'En sevdiğin oyunlar burada! �',
                 style: AppTheme.bodyMedium.copyWith(
                   color: AppTheme.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: AppTheme.xl),
               
-              // Geliştirme Mesajı
+              // Oyun Kartları Grid
               Expanded(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // İkon
-                      Container(
-                        width: 120,
-                        height: 120,
-                        decoration: BoxDecoration(
-                          color: AppTheme.primaryContainer,
-                          borderRadius: BorderRadius.circular(60),
-                        ),
-                        child: Icon(
-                          Icons.construction,
-                          size: 60,
-                          color: AppTheme.primary,
-                        ),
-                      ),
-                      
-                      const SizedBox(height: AppTheme.lg),
-                      
-                      // Başlık
-                      Text(
-                        'Oyunlar Geliyor! 🚀',
-                        style: AppTheme.headlineMedium.copyWith(
-                          color: AppTheme.primary,
-                        ),
-                      ),
-                      
-                      const SizedBox(height: AppTheme.md),
-                      
-                      // Açıklama
-                      Text(
-                        'Çok yakında harika oyunlar ekleyeceğiz!\nBizi takip etmeye devam et! 🌟',
-                        style: AppTheme.bodyLarge.copyWith(
-                          color: AppTheme.onSurfaceVariant,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      
-                      const SizedBox(height: AppTheme.xl),
-                      
-                      // Özellikler
-                      Container(
-                        padding: const EdgeInsets.all(AppTheme.lg),
-                        decoration: BoxDecoration(
-                          color: AppTheme.surfaceContainerLowest,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: AppTheme.outline),
-                        ),
-                        child: Column(
-                          children: [
-                            Text(
-                              'Sizin İçin Neler Var? 🎁',
-                              style: AppTheme.headlineSmall,
-                            ),
-                            const SizedBox(height: AppTheme.md),
-                            _buildFeatureItem('🧩 Eşleştirme Oyunları'),
-                            _buildFeatureItem('🎨 Boyama Aktiviteleri'),
-                            _buildFeatureItem('🎵 Sesli Oyunlar'),
-                            _buildFeatureItem('🧠 Zeka Geliştirme'),
-                            _buildFeatureItem('📖 Hikaye Okuma'),
-                            _buildFeatureItem('🎯 Hedef Odaklı Görevler'),
-                          ],
-                        ),
-                      ),
-                    ],
+                child: GridView.builder(
+                  padding: EdgeInsets.zero,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: AppTheme.md,
+                    mainAxisSpacing: AppTheme.md,
+                    childAspectRatio: 0.8,
                   ),
+                  itemCount: games.length,
+                  itemBuilder: (context, index) {
+                    return _buildGameCard(games[index]);
+                  },
                 ),
               ),
             ],
@@ -113,23 +103,128 @@ class _GamesScreenState extends State<GamesScreen> {
     );
   }
 
-  Widget _buildFeatureItem(String feature) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          Icon(
-            Icons.check_circle,
-            color: AppTheme.primary,
-            size: 20,
-          ),
-          const SizedBox(width: AppTheme.sm),
-          Text(
-            feature,
-            style: AppTheme.bodyMedium,
+  Widget _buildGameCard(GameData game) {
+    return Container(
+      decoration: BoxDecoration(
+        color: game.color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: game.color.withOpacity(0.3),
+          width: 2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: game.color.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(20),
+          onTap: () {
+            // Hiçbir şey yapma - sadece görsel efekt
+            HapticFeedback.lightImpact();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(AppTheme.md),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Oyun İkonu
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: game.color,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: game.color.withOpacity(0.3),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    game.icon,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                ),
+                
+                const SizedBox(height: AppTheme.md),
+                
+                // Oyun Başlığı
+                Text(
+                  game.title,
+                  style: AppTheme.headlineSmall.copyWith(
+                    color: game.color,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                
+                const SizedBox(height: AppTheme.sm),
+                
+                // Oyun Açıklaması
+                Text(
+                  game.description,
+                  style: AppTheme.bodySmall.copyWith(
+                    color: AppTheme.onSurfaceVariant,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                
+                const Spacer(),
+                
+                // "Çok Yakında" etiketi (gerekirse)
+                if (game.isComingSoon)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppTheme.sm,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppTheme.primary,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      'Çok Yakında!',
+                      style: AppTheme.labelSmall.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
+}
+
+// Oyun verisi modeli
+class GameData {
+  final String title;
+  final String description;
+  final IconData icon;
+  final Color color;
+  final bool isComingSoon;
+
+  GameData({
+    required this.title,
+    required this.description,
+    required this.icon,
+    required this.color,
+    this.isComingSoon = true,
+  });
 }

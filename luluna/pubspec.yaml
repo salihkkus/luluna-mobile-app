@@ -33,6 +33,13 @@ dependencies:
   sqflite: ^2.3.0
   # Veritabanı dosyasının yolunu almak için
   path_provider: ^2.1.1
+  # AI Entegrasyonu için yeni paketler
+  # Kamera ve galeri erişimi
+  image_picker: ^1.0.7
+  # HTTP istekleri
+  http: ^1.2.0
+  # Environment variables
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -45,6 +52,7 @@ flutter:
   # AI Model ve Label dosyaları
   assets:
     - assets/models/
+    - .env
   # Gelecekte logo veya özel ikonlar eklemek isterseniz assets klasörünü buradan aktif edebilirsiniz.
   # assets:
   #   - assets/images/

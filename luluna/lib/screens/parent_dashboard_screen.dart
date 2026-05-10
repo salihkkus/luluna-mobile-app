@@ -121,45 +121,58 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
           const SizedBox(height: 32),
           
           // Özet Kartları - Tasarım Sistemi Uyumlu
-          GridView.count(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            mainAxisSpacing: 20,
-            crossAxisSpacing: 20,
-            childAspectRatio: 1.0,
+          Column(
             children: [
-              _buildModernReportCard(
-                'Toplam Tespit',
-                '156',
-                Icons.analytics,
-                AppTheme.primary,
-                'Bu ay',
-                '+12%'
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildModernReportCard(
+                      'Toplam Tespit',
+                      '156',
+                      Icons.analytics,
+                      AppTheme.primary,
+                      'Bu ay',
+                      '+12%'
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: _buildModernReportCard(
+                      'Bu Hafta',
+                      '23',
+                      Icons.trending_up,
+                      AppTheme.secondary,
+                      'Son 7 gün',
+                      '+8%'
+                    ),
+                  ),
+                ],
               ),
-              _buildModernReportCard(
-                'Bu Hafta',
-                '23',
-                Icons.trending_up,
-                AppTheme.secondary,
-                'Son 7 gün',
-                '+8%'
-              ),
-              _buildModernReportCard(
-                'Başarı Oranı',
-                '85%',
-                Icons.emoji_events,
-                Color(0xFFFFB74D),
-                'Ortalama',
-                '+5%'
-              ),
-              _buildModernReportCard(
-                'Aktif Gün',
-                '12',
-                Icons.calendar_today,
-                Color(0xFFBA68C8),
-                'Bu ay',
-                '3 gün'
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildModernReportCard(
+                      'Başarı Oranı',
+                      '85%',
+                      Icons.emoji_events,
+                      const Color(0xFFFFB74D),
+                      'Ortalama',
+                      '+5%'
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: _buildModernReportCard(
+                      'Aktif Gün',
+                      '12',
+                      Icons.calendar_today,
+                      const Color(0xFFBA68C8),
+                      'Bu ay',
+                      '3 gün'
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -275,6 +288,102 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
             padding: const EdgeInsets.only(bottom: 16),
             child: _buildModernReportItem(report),
           )).toList(),
+
+          const SizedBox(height: 8),
+          
+          // Rapor İndirme Kartı
+          GestureDetector(
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Row(
+                    children: const [
+                      Icon(Icons.check_circle, color: Colors.white),
+                      SizedBox(width: 12),
+                      Text('Raporlar PDF olarak indiriliyor...'),
+                    ],
+                  ),
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  backgroundColor: AppTheme.primary,
+                ),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [AppTheme.primary, const Color(0xFF6A1B9A)], // Mor/Eflatun tonlu geçiş
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppTheme.primary.withOpacity(0.3),
+                    blurRadius: 15,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.picture_as_pdf,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Raporları İndir',
+                          style: AppTheme.headlineSmall.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Tüm gelişimi cihazına kaydet',
+                          style: AppTheme.bodyMedium.copyWith(
+                            color: Colors.white.withOpacity(0.9),
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      Icons.download,
+                      color: AppTheme.primary,
+                      size: 20,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          
+          const SizedBox(height: 20), // Bottom nav bar ile karışmaması için
         ],
       ),
     );
@@ -404,11 +513,11 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
 
   Widget _buildModernReportCard(String title, String value, IconData icon, Color color, String period, String trend) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Color(0xFFE9ECEF)),
+        border: Border.all(color: const Color(0xFFE9ECEF)),
         boxShadow: [
           BoxShadow(
             color: color.withOpacity(0.1),
@@ -425,55 +534,71 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: color.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: Icon(icon, color: color, size: 24),
+                child: Icon(icon, color: color, size: 20),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  trend,
-                  style: AppTheme.bodySmall.copyWith(
-                    color: color,
-                    fontWeight: FontWeight.w600,
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                  margin: const EdgeInsets.only(left: 4),
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    trend,
+                    textAlign: TextAlign.center,
+                    style: AppTheme.bodySmall.copyWith(
+                      color: color,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 11,
+                    ),
                   ),
                 ),
               ),
             ],
           ),
           
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           
           // Başlık ve değer
           Text(
             title,
             style: AppTheme.bodyMedium.copyWith(
               color: AppTheme.onSurfaceVariant,
+              fontSize: 13,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 8),
-          Text(
-            value,
-            style: AppTheme.headlineMedium.copyWith(
-              color: color,
-              fontWeight: FontWeight.w700,
+          const SizedBox(height: 4),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              value,
+              style: AppTheme.headlineMedium.copyWith(
+                color: color,
+                fontWeight: FontWeight.w700,
+                fontSize: 22,
+              ),
             ),
           ),
           
-          const Spacer(),
+          const SizedBox(height: 12),
+          
+          const SizedBox(height: 4),
           
           // Periyot
           Text(
             period,
             style: AppTheme.bodySmall.copyWith(
               color: AppTheme.onSurfaceVariant,
+              fontSize: 11,
             ),
           ),
         ],
@@ -702,7 +827,6 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
 
   Widget _buildBottomNavigationBar() {
     return Container(
-      height: 90,
       decoration: BoxDecoration(
         color: AppTheme.surfaceContainerLowest,
         borderRadius: const BorderRadius.only(
@@ -719,7 +843,7 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppTheme.lg, vertical: AppTheme.md),
+          padding: const EdgeInsets.symmetric(horizontal: AppTheme.sm, vertical: AppTheme.sm),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -761,19 +885,20 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
         onTap();
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected ? AppTheme.primary.withOpacity(0.15) : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: isSelected ? AppTheme.primary : Colors.transparent,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(14),
                 boxShadow: isSelected ? [
                   BoxShadow(
                     color: AppTheme.primary.withOpacity(0.3),
@@ -784,7 +909,7 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
               ),
               child: Icon(
                 icon,
-                size: 24,
+                size: 22,
                 color: isSelected ? AppTheme.onPrimary : AppTheme.onSurfaceVariant,
               ),
             ),
@@ -794,6 +919,7 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
               style: AppTheme.bodySmall.copyWith(
                 color: isSelected ? AppTheme.primary : AppTheme.onSurfaceVariant,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                fontSize: 11,
               ),
             ),
           ],

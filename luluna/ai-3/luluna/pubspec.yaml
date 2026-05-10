@@ -1,0 +1,35 @@
+name: autism_vision_app
+description: Otizmli çocuklar için görsel tanıma uygulaması
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # Kamera ve galeri erişimi
+  image_picker: ^1.0.7
+  
+  # HTTP istekleri
+  http: ^1.2.0
+  
+  # Görsel işleme (resize)
+  image: ^4.1.7
+  
+  # Environment variables
+  flutter_dotenv: ^5.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  
+  # .env dosyasını assets'e ekle
+  assets:
+    - .env

@@ -44,7 +44,6 @@ class _ChildNavigationScreenState extends State<ChildNavigationScreen> {
 
   Widget _buildBottomNavigationBar() {
     return Container(
-      height: 80,
       decoration: BoxDecoration(
         color: AppTheme.surface,
         borderRadius: const BorderRadius.only(
@@ -93,6 +92,7 @@ class _ChildNavigationScreenState extends State<ChildNavigationScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(

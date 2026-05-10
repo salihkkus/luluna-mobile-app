@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:typed_data';
 import '../theme/app_theme.dart';
 import '../services/detection_service.dart';
+import '../services/vision_service.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
@@ -21,11 +22,14 @@ class _CameraScreenState extends State<CameraScreen> {
   List<CameraDescription> _cameras = [];
   FlutterTts _flutterTts = FlutterTts();
   final DetectionService _detectionService = DetectionService.instance;
+  final VisionService _visionService = VisionService();
   
   String? _detectedObject;
   String? _currentQuestion;
   bool _isProcessing = false;
   DetectionResult? _lastDetectionResult;
+  String? _aiResult;
+  bool _isAiProcessing = false;
 
   @override
   void initState() {
@@ -120,7 +124,7 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 
-  // Mock AI nesne tespiti (TensorFlow Lite geçici olarak devre dışı)
+  // AI nesne tespiti - Gerçek AI entegrasyonu
   Future<void> _detectObject() async {
     if (_isProcessing || _controller == null) return;
     
@@ -131,47 +135,91 @@ class _CameraScreenState extends State<CameraScreen> {
     });
     
     try {
-      // Şimdilik doğrudan mock detection kullanıyoruz
-      // Doğu'nun modeli gelince gerçek AI entegrasyonu aktif edilecek
-      print('🔄 Using mock detection (TensorFlow Lite temporarily disabled)');
+      // Gerçek AI servisini kullanıyoruz
+      print('🔄 Using real AI vision service');
       
-      // Mock detection simülasyonu
-      await Future.delayed(const Duration(milliseconds: 800));
+      // AI ile kameradan analiz
+      final result = await _visionService.analyzeFromCamera();
       
-      // Mock nesnelerden rastgele seçim
-      final mockObjects = ['salih', 'sümeyye', 'doğu', 'kerem', 'ceren'];
-      final randomIndex = DateTime.now().millisecondsSinceEpoch % mockObjects.length;
-      final detectedObject = mockObjects[randomIndex];
-      final confidence = 0.75 + (DateTime.now().millisecondsSinceEpoch % 25) / 100.0;
+      // Sonucu işle
+      setState(() {
+        _detectedObject = result;
+        _currentQuestion = 'Bu ne?';
+      });
       
-      if (mounted) {
-        setState(() {
-          _detectedObject = detectedObject;
-          _isProcessing = false;
-        });
-        
-        // Tespit edilen nesneyi seslendir
-        _speakObject(detectedObject, confidence);
-        
-        // 3 saniye sonra soru sor
-        Future.delayed(const Duration(seconds: 3), () {
-          if (mounted) {
-            _askQuestion(detectedObject);
-          }
-        });
-      }
+      // Sonucu seslendir
+      await _speakResult(result);
       
     } catch (e) {
-      print('❌ Detection error: $e');
+      print('❌ AI Detection Error: $e');
       
-      if (mounted) {
-        setState(() {
-          _isProcessing = false;
-        });
-        
-        // Hata durumunda mock kullan
-        _performMockDetection();
-      }
+      // Hata durumunda mock detection'a geri dön
+      await _fallbackToMockDetection();
+    } finally {
+      setState(() {
+        _isProcessing = false;
+      });
+    }
+  }
+
+  // AI ile galeriden analiz
+  Future<void> _analyzeFromGallery() async {
+    if (_isAiProcessing) return;
+    
+    setState(() {
+      _isAiProcessing = true;
+      _aiResult = null;
+    });
+    
+    try {
+      final result = await _visionService.analyzeFromGallery();
+      
+      setState(() {
+        _aiResult = result;
+      });
+      
+      // Sonucu seslendir
+      await _speakResult(result);
+      
+    } catch (e) {
+      print('❌ Gallery Analysis Error: $e');
+      setState(() {
+        _aiResult = 'Görsel analiz edilemedi. Lütfen tekrar deneyin.';
+      });
+    } finally {
+      setState(() {
+        _isAiProcessing = false;
+      });
+    }
+  }
+
+  // Fallback mock detection
+  Future<void> _fallbackToMockDetection() async {
+    print('🔄 Falling back to mock detection');
+    
+    await Future.delayed(const Duration(milliseconds: 800));
+    
+    // Mock nesnelerden rastgele seçim
+    final mockObjects = ['salih', 'sümeyye', 'doğu', 'kerem', 'ceren'];
+    final randomIndex = DateTime.now().millisecondsSinceEpoch % mockObjects.length;
+    final detectedObject = mockObjects[randomIndex];
+    final confidence = 0.75 + (DateTime.now().millisecondsSinceEpoch % 25) / 100.0;
+      
+    if (mounted) {
+      setState(() {
+        _detectedObject = detectedObject;
+        _isProcessing = false;
+      });
+      
+      // Tespit edilen nesneyi seslendir
+      _speakObject(detectedObject, confidence);
+      
+      // 3 saniye sonra soru sor
+      Future.delayed(const Duration(seconds: 3), () {
+        if (mounted) {
+          _askQuestion(detectedObject);
+        }
+      });
     }
   }
 
@@ -186,16 +234,15 @@ class _CameraScreenState extends State<CameraScreen> {
       _detectedObject = randomObject;
       _isProcessing = false;
     });
-    
-    // Tespit edilen nesneyi seslendir
-    _speakObject(randomObject, 0.8);
-    
-    // 3 saniye sonra soru sor
-    Future.delayed(const Duration(seconds: 3), () {
-      if (mounted) {
-        _askQuestion(randomObject);
-      }
-    });
+  }
+
+  // AI sonuçlarını seslendirme
+  Future<void> _speakResult(String result) async {
+    try {
+      await _flutterTts.speak(result);
+    } catch (e) {
+      print('❌ TTS Error: $e');
+    }
   }
 
   // Basit CameraImage converter (gerçek uygulamada daha karmaşık olur)
@@ -369,16 +416,178 @@ class _CameraScreenState extends State<CameraScreen> {
             // Kontrol butonları
             Padding(
               padding: const EdgeInsets.all(AppTheme.containerMargin),
-              child: Row(
+              child: Column(
                 children: [
-                  // Tespit butonu
-                  Expanded(
-                    child: Container(
+                  // AI Analiz Butonları
+                  Row(
+                    children: [
+                      // Kameradan Analiz Et
+                      Expanded(
+                        child: Container(
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: _isProcessing 
+                                ? AppTheme.surfaceContainerHigh
+                                : AppTheme.primary,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppTheme.primary.withOpacity(0.2),
+                                blurRadius: 10,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(20),
+                              onTap: _isProcessing ? null : _detectObject,
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    if (_isProcessing)
+                                      const SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                        ),
+                                      )
+                                    else
+                                      const Icon(
+                                        Icons.camera_alt,
+                                        color: Colors.white,
+                                        size: 24,
+                                      ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      _isProcessing ? 'Analiz Ediliyor...' : '📸 Çek ve Analiz Et',
+                                      style: AppTheme.labelLarge.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      
+                      const SizedBox(width: AppTheme.md),
+                      
+                      // Galeriden Analiz Et
+                      Expanded(
+                        child: Container(
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: _isAiProcessing 
+                                ? AppTheme.surfaceContainerHigh
+                                : AppTheme.secondary,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppTheme.secondary.withOpacity(0.2),
+                                blurRadius: 10,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(20),
+                              onTap: _isAiProcessing ? null : _analyzeFromGallery,
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    if (_isAiProcessing)
+                                      const SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                        ),
+                                      )
+                                    else
+                                      const Icon(
+                                        Icons.photo_library,
+                                        color: Colors.white,
+                                        size: 24,
+                                      ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      _isAiProcessing ? 'İşleniyor...' : '🖼️ Galeriden Seç',
+                                      style: AppTheme.labelLarge.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  
+                  const SizedBox(height: AppTheme.md),
+                  
+                  // AI Sonuç Alanı
+                  if (_aiResult != null)
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(AppTheme.md),
+                      decoration: BoxDecoration(
+                        color: AppTheme.tertiaryContainer,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: AppTheme.tertiary),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.psychology,
+                                color: AppTheme.onTertiaryContainer,
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                'AI Analiz Sonucu',
+                                style: AppTheme.labelLarge.copyWith(
+                                  color: AppTheme.onTertiaryContainer,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            _aiResult!,
+                            style: AppTheme.bodyLarge.copyWith(
+                              color: AppTheme.onTertiaryContainer,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  
+                  // Tespit butonu (eski)
+                  if (_detectedObject != null)
+                    Container(
                       height: 60,
                       decoration: BoxDecoration(
-                        color: _isProcessing 
-                            ? AppTheme.surfaceContainerHigh
-                            : AppTheme.primary,
+                        color: AppTheme.primary,
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
@@ -396,35 +605,22 @@ class _CameraScreenState extends State<CameraScreen> {
                           child: Center(
                             child: _isProcessing
                                 ? const SizedBox(
-                                    width: 24,
-                                    height: 24,
+                                    width: 20,
+                                    height: 20,
                                     child: CircularProgressIndicator(
-                                      color: AppTheme.onPrimary,
                                       strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                     ),
                                   )
-                                : Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Icon(
-                                        Icons.camera,
-                                        color: AppTheme.onPrimary,
-                                        size: 24,
-                                      ),
-                                      const SizedBox(width: AppTheme.sm),
-                                      Text(
-                                        'Nesne Tespit Et',
-                                        style: AppTheme.labelLarge.copyWith(
-                                          color: AppTheme.onPrimary,
-                                        ),
-                                      ),
-                                    ],
+                                : const Icon(
+                                    Icons.search,
+                                    color: Colors.white,
+                                    size: 24,
                                   ),
                           ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
