@@ -4,6 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:typed_data';
+import 'dart:convert';
 import '../theme/app_theme.dart';
 import '../services/detection_service.dart';
 import '../services/vision_service.dart';
@@ -30,6 +31,12 @@ class _CameraScreenState extends State<CameraScreen> {
   DetectionResult? _lastDetectionResult;
   String? _aiResult;
   bool _isAiProcessing = false;
+
+  // Quiz için yeni değişkenler
+  List<String> _options = [];
+  String? _correctAnswer;
+  String? _selectedAnswer;
+  bool? _isAnswerCorrect;
 
   @override
   void initState() {
@@ -141,14 +148,30 @@ class _CameraScreenState extends State<CameraScreen> {
       // AI ile kameradan analiz
       final result = await _visionService.analyzeFromCamera();
       
-      // Sonucu işle
-      setState(() {
-        _detectedObject = result;
-        _currentQuestion = 'Bu ne?';
-      });
-      
-      // Sonucu seslendir
-      await _speakResult(result);
+      // JSON parse et
+      try {
+        final Map<String, dynamic> data = jsonDecode(result);
+        
+        setState(() {
+          _detectedObject = data['description'];
+          _currentQuestion = data['question'];
+          _options = List<String>.from(data['options']);
+          _correctAnswer = data['correct_answer'];
+          _selectedAnswer = null;
+          _isAnswerCorrect = null;
+        });
+        
+        // Önce sadece soruyu seslendir (yorumu gizli tutuyoruz)
+        await _speakResult("Hadi bulalım! ${data['question']}");
+      } catch (e) {
+        print('❌ JSON Parse Error: $e');
+        setState(() {
+          _detectedObject = result;
+          _currentQuestion = null;
+          _options = [];
+        });
+        await _speakResult(result);
+      }
       
     } catch (e) {
       print('❌ AI Detection Error: $e');
@@ -174,12 +197,29 @@ class _CameraScreenState extends State<CameraScreen> {
     try {
       final result = await _visionService.analyzeFromGallery();
       
-      setState(() {
-        _aiResult = result;
-      });
-      
-      // Sonucu seslendir
-      await _speakResult(result);
+      // JSON parse et
+      try {
+        final Map<String, dynamic> data = jsonDecode(result);
+        
+        setState(() {
+          _aiResult = data['description'];
+          _currentQuestion = data['question'];
+          _options = List<String>.from(data['options']);
+          _correctAnswer = data['correct_answer'];
+          _selectedAnswer = null;
+          _isAnswerCorrect = null;
+        });
+        
+        // Önce sadece soruyu seslendir
+        await _speakResult("Bu görselde bir soru var! ${data['question']}");
+      } catch (e) {
+        print('❌ JSON Parse Error: $e');
+        setState(() {
+          _aiResult = result;
+          _options = [];
+        });
+        await _speakResult(result);
+      }
       
     } catch (e) {
       print('❌ Gallery Analysis Error: $e');
@@ -308,24 +348,39 @@ class _CameraScreenState extends State<CameraScreen> {
     _flutterTts.speak(question);
   }
 
+  void _handleOptionTap(String option) {
+    if (_selectedAnswer != null) return;
+
+    setState(() {
+      _selectedAnswer = option;
+      _isAnswerCorrect = option == _correctAnswer;
+    });
+
+    if (_isAnswerCorrect!) {
+      _speakResult('Harika! Doğru cevap 😊. ${_detectedObject ?? _aiResult}');
+    } else {
+      _speakResult('Hadi bir daha deneyelim. Doğru cevap şuydu: $_correctAnswer 🙈');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
-        title: Text(
-          'Luluna',
-          style: AppTheme.headlineSmall,
+        title: Image.asset(
+          'assets/models/luluna.png',
+          height: 36,
         ),
         centerTitle: true,
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            // Kamera görüntüsü alanı
-            Expanded(
-              flex: 3,
-              child: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Kamera görüntüsü alanı
+              Container(
+                height: 350,
                 margin: const EdgeInsets.all(AppTheme.containerMargin),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
@@ -342,38 +397,34 @@ class _CameraScreenState extends State<CameraScreen> {
                   child: _buildCameraWidget(),
                 ),
               ),
-            ),
-            
-            // Tespit ve soru alanı
-            Expanded(
-              flex: 1,
-              child: Padding(
+              
+              // Tespit ve soru alanı
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: AppTheme.containerMargin),
                 child: Column(
                   children: [
-                    // Tespit edilen nesne
-                    if (_detectedObject != null)
+                    // Tespit edilen nesne (Sadece doğru cevap verildikten sonra gösterilir)
+                    if ((_detectedObject != null || _aiResult != null) && _isAnswerCorrect == true)
                       Container(
+                        width: double.infinity,
                         padding: const EdgeInsets.all(AppTheme.md),
+                        margin: const EdgeInsets.only(bottom: AppTheme.md),
                         decoration: BoxDecoration(
-                          color: AppTheme.secondaryContainer,
+                          color: Colors.green.shade50,
                           borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: Colors.green.shade200),
                         ),
-                        child: Row(
+                        child: Column(
                           children: [
-                            const Icon(
-                              Icons.search,
-                              color: AppTheme.onSecondaryContainer,
-                              size: 24,
-                            ),
-                            const SizedBox(width: AppTheme.sm),
-                            Expanded(
-                              child: Text(
-                                'Tespit edilen: $_detectedObject',
-                                style: AppTheme.labelLarge.copyWith(
-                                  color: AppTheme.onSecondaryContainer,
-                                ),
+                            const Icon(Icons.check_circle, color: Colors.green, size: 32),
+                            const SizedBox(height: 8),
+                            Text(
+                              _detectedObject ?? _aiResult!,
+                              style: AppTheme.labelLarge.copyWith(
+                                color: Colors.green.shade900,
+                                fontWeight: FontWeight.bold,
                               ),
+                              textAlign: TextAlign.center,
                             ),
                           ],
                         ),
@@ -381,250 +432,132 @@ class _CameraScreenState extends State<CameraScreen> {
                     
                     const SizedBox(height: AppTheme.md),
                     
-                    // Soru
-                    if (_currentQuestion != null)
+                    // Soru ve Şıklar
+                    if (_currentQuestion != null) ...[
                       Container(
+                        width: double.infinity,
                         padding: const EdgeInsets.all(AppTheme.md),
                         decoration: BoxDecoration(
                           color: AppTheme.primaryContainer,
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        child: Row(
+                        child: Column(
                           children: [
-                            const Icon(
-                              Icons.help_outline,
-                              color: AppTheme.onPrimaryContainer,
-                              size: 24,
-                            ),
-                            const SizedBox(width: AppTheme.sm),
-                            Expanded(
-                              child: Text(
-                                _currentQuestion!,
-                                style: AppTheme.labelLarge.copyWith(
-                                  color: AppTheme.onPrimaryContainer,
-                                ),
+                            Text(
+                              _currentQuestion!,
+                              style: AppTheme.labelLarge.copyWith(
+                                color: AppTheme.onPrimaryContainer,
+                                fontWeight: FontWeight.bold,
                               ),
+                              textAlign: TextAlign.center,
                             ),
+                            const SizedBox(height: AppTheme.md),
+                            
+                            // Şıklar
+                            if (_options.isNotEmpty)
+                              Column(
+                                children: _options.map((option) {
+                                  bool isSelected = _selectedAnswer == option;
+                                  bool isCorrect = option == _correctAnswer;
+                                  
+                                  Color buttonColor = Colors.white;
+                                  if (isSelected) {
+                                    buttonColor = isCorrect ? Colors.green.shade100 : Colors.red.shade100;
+                                  } else if (_selectedAnswer != null && isCorrect) {
+                                    buttonColor = Colors.green.shade50;
+                                  }
+
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 8.0),
+                                    child: InkWell(
+                                      onTap: () => _handleOptionTap(option),
+                                      child: Container(
+                                        width: double.infinity,
+                                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                                        decoration: BoxDecoration(
+                                          color: buttonColor,
+                                          borderRadius: BorderRadius.circular(12),
+                                          border: Border.all(
+                                            color: isSelected 
+                                              ? (isCorrect ? Colors.green : Colors.red)
+                                              : Colors.transparent,
+                                            width: 2,
+                                          ),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              option,
+                                              style: AppTheme.bodyLarge.copyWith(
+                                                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                              ),
+                                            ),
+                                            if (isSelected)
+                                              Icon(
+                                                isCorrect ? Icons.check_circle : Icons.cancel,
+                                                color: isCorrect ? Colors.green : Colors.red,
+                                              ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
                           ],
                         ),
                       ),
+                    ],
                   ],
                 ),
               ),
-            ),
-            
-            // Kontrol butonları
-            Padding(
-              padding: const EdgeInsets.all(AppTheme.containerMargin),
-              child: Column(
-                children: [
-                  // AI Analiz Butonları
-                  Row(
-                    children: [
-                      // Kameradan Analiz Et
-                      Expanded(
-                        child: Container(
-                          height: 60,
-                          decoration: BoxDecoration(
-                            color: _isProcessing 
-                                ? AppTheme.surfaceContainerHigh
-                                : AppTheme.primary,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppTheme.primary.withOpacity(0.2),
-                                blurRadius: 10,
-                                offset: const Offset(0, 5),
-                              ),
-                            ],
-                          ),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(20),
-                              onTap: _isProcessing ? null : _detectObject,
-                              child: Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    if (_isProcessing)
-                                      const SizedBox(
-                                        width: 20,
-                                        height: 20,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                                        ),
-                                      )
-                                    else
-                                      const Icon(
-                                        Icons.camera_alt,
-                                        color: Colors.white,
-                                        size: 24,
-                                      ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      _isProcessing ? 'Analiz Ediliyor...' : '📸 Çek ve Analiz Et',
-                                      style: AppTheme.labelLarge.copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+              
+              // Kontrol butonları
+              Padding(
+                padding: const EdgeInsets.all(AppTheme.containerMargin),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: _isProcessing ? null : _detectObject,
+                            icon: _isProcessing 
+                                ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                                : const Icon(Icons.camera_alt),
+                            label: Text(_isProcessing ? 'Analiz Ediliyor...' : '📸 Çek ve Sor'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.primary,
+                              foregroundColor: Colors.white,
+                              minimumSize: const Size(double.infinity, 56),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                             ),
                           ),
                         ),
-                      ),
-                      
-                      const SizedBox(width: AppTheme.md),
-                      
-                      // Galeriden Analiz Et
-                      Expanded(
-                        child: Container(
-                          height: 60,
-                          decoration: BoxDecoration(
-                            color: _isAiProcessing 
-                                ? AppTheme.surfaceContainerHigh
-                                : AppTheme.secondary,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppTheme.secondary.withOpacity(0.2),
-                                blurRadius: 10,
-                                offset: const Offset(0, 5),
-                              ),
-                            ],
-                          ),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(20),
-                              onTap: _isAiProcessing ? null : _analyzeFromGallery,
-                              child: Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    if (_isAiProcessing)
-                                      const SizedBox(
-                                        width: 20,
-                                        height: 20,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                                        ),
-                                      )
-                                    else
-                                      const Icon(
-                                        Icons.photo_library,
-                                        color: Colors.white,
-                                        size: 24,
-                                      ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      _isAiProcessing ? 'İşleniyor...' : '🖼️ Galeriden Seç',
-                                      style: AppTheme.labelLarge.copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: _isAiProcessing ? null : _analyzeFromGallery,
+                            icon: _isAiProcessing 
+                                ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                                : const Icon(Icons.photo_library),
+                            label: Text(_isAiProcessing ? 'İşleniyor...' : '🖼️ Galeri'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.secondary,
+                              foregroundColor: Colors.white,
+                              minimumSize: const Size(double.infinity, 56),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  
-                  const SizedBox(height: AppTheme.md),
-                  
-                  // AI Sonuç Alanı
-                  if (_aiResult != null)
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(AppTheme.md),
-                      decoration: BoxDecoration(
-                        color: AppTheme.tertiaryContainer,
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: AppTheme.tertiary),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.psychology,
-                                color: AppTheme.onTertiaryContainer,
-                                size: 20,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                'AI Analiz Sonucu',
-                                style: AppTheme.labelLarge.copyWith(
-                                  color: AppTheme.onTertiaryContainer,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            _aiResult!,
-                            style: AppTheme.bodyLarge.copyWith(
-                              color: AppTheme.onTertiaryContainer,
-                            ),
-                          ),
-                        ],
-                      ),
+                      ],
                     ),
-                  
-                  // Tespit butonu (eski)
-                  if (_detectedObject != null)
-                    Container(
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: AppTheme.primary,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppTheme.primary.withOpacity(0.2),
-                            blurRadius: 10,
-                            offset: const Offset(0, 5),
-                          ),
-                        ],
-                      ),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(20),
-                          onTap: _isProcessing ? null : _detectObject,
-                          child: Center(
-                            child: _isProcessing
-                                ? const SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                                    ),
-                                  )
-                                : const Icon(
-                                    Icons.search,
-                                    color: Colors.white,
-                                    size: 24,
-                                  ),
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

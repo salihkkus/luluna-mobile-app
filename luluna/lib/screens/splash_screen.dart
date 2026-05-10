@@ -81,23 +81,25 @@ class _SplashScreenState extends State<SplashScreen>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              width: 120,
-                              height: 120,
+                              width: 150,
+                              height: 150,
                               decoration: BoxDecoration(
-                                color: AppTheme.primaryContainer,
-                                borderRadius: BorderRadius.circular(30),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(35),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: AppTheme.primary.withOpacity(0.2),
+                                    color: AppTheme.primary.withOpacity(0.1),
                                     blurRadius: 20,
                                     offset: const Offset(0, 10),
                                   ),
                                 ],
                               ),
-                              child: const Icon(
-                                Icons.nightlight_round,
-                                size: 60,
-                                color: AppTheme.onPrimaryContainer,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(35),
+                                child: Image.asset(
+                                  'assets/models/luluna.png',
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ),
                             const SizedBox(height: 32),

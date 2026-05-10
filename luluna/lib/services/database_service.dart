@@ -20,11 +20,16 @@ class DatabaseService {
     final documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join(documentsDirectory.path, 'luluna.db');
     
-    return await openDatabase(
+    final db = await openDatabase(
       path,
       version: 1,
       onCreate: _onCreate,
     );
+    
+    // Geliştirme sürecinde eski isimleri yenileriyle güncelle
+    await _forceUpdateProfileNames(db);
+    
+    return db;
   }
 
   Future<void> _onCreate(Database db, int version) async {
@@ -52,7 +57,7 @@ class DatabaseService {
     final now = DateTime.now().toIso8601String();
     
     await db.insert('profiles', {
-      'name': 'Ali Yılmaz',
+      'name': 'Çağatay Gedik',
       'age': 8,
       'avatar': '👦',
       'color': '#2196F3',
@@ -64,7 +69,7 @@ class DatabaseService {
     });
 
     await db.insert('profiles', {
-      'name': 'Zeynep Kaya',
+      'name': 'Zeynep Kahya',
       'age': 7,
       'avatar': '👧',
       'color': '#9C27B0',
@@ -74,6 +79,12 @@ class DatabaseService {
       'created_at': now,
       'updated_at': now,
     });
+  }
+
+  // Eski profil isimlerini yenileriyle güncelle (Geliştirme için kolaylık)
+  Future<void> _forceUpdateProfileNames(Database db) async {
+    await db.update('profiles', {'name': 'Çağatay Gedik'}, where: 'name = ?', whereArgs: ['Ali Yılmaz']);
+    await db.update('profiles', {'name': 'Zeynep Kahya'}, where: 'name = ?', whereArgs: ['Zeynep Kaya']);
   }
 
   // Tüm profilleri getir

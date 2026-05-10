@@ -33,8 +33,8 @@ class VisionService {
   static void disableDeveloperMode() => _isDeveloperMode = false;
 
   // Görsel işleme parametreleri
-  static const int maxImageWidth = 800;
-  static const int jpegQuality = 70;
+  static const int maxImageWidth = 1200; // Çözünürlüğü artırdık ki yapay zeka kör olmasın
+  static const int jpegQuality = 90; // Kaliteyi de 90'a çıkardık
 
   // Desteklenen diller
   static const List<String> supportedLanguages = [
@@ -196,8 +196,9 @@ class VisionService {
         }
       ],
       'generationConfig': {
-        'maxOutputTokens': isDeveloperMode ? 500 : 100,
-        'temperature': 0.4,
+        'maxOutputTokens': isDeveloperMode ? 1000 : 500,
+        'temperature': 0.2,
+        'responseMimeType': 'application/json',
       },
     };
 

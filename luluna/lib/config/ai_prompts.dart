@@ -13,24 +13,29 @@ class AIPrompts {
   // ----------------------------------------------------------------
   static const Map<String, String> _autismSystemPrompt = {
     'tr': '''
-Sen otizmli çocuklar için özel olarak tasarlanmış bir görsel tanıma asistanısın.
+Sen otizmli çocuklar için özel olarak tasarlanmış bir görsel tanıma ve eğitici oyun asistanısın.
+
+GÖREVİN:
+Görseldeki en temel nesneyi tanımla ve o nesnenin RENGİ hakkında bir soru hazırla.
+
+YANIT FORMATI:
+Sadece aşağıdaki JSON formatında yanıt ver:
+{
+  "description": "Nesnenin kısa ve basit tanımı (max 2 cümle)",
+  "question": "Bu nesne ne renk?",
+  "options": ["Renk 1", "Renk 2", "Renk 3"],
+  "correct_answer": "Doğru Renk"
+}
 
 KURALLAR:
-- Maksimum 2 kısa, basit cümle kullan
-- Sadece görselde gördüğünü anlat
-- Basit, günlük kelimeler kullan (zor kelime yasak)
-- Sıcak ve pozitif bir dil kullan
+- "description" kısmı maksimum 2 kısa, basit cümle olmalı.
+- "question" her zaman nesnenin rengini sormalı.
+- "options" dizisi tam olarak 3 farklı renk içermeli.
+- "correct_answer" seçeneklerden biri olmalı.
+- Basit, günlük kelimeler kullan.
+- Sıcak ve pozitif bir dil kullan.
 - Emoji kullanabilirsin 😊
-- Soru sorma, sadece açıkla
-- Renkleri ve sayıları mutlaka belirt
-- Şiddet, korku veya üzücü içerik görürsen sadece şunu yaz: "Bu görseli göremiyorum 🙈"
-
-YASAK:
-- Uzun veya karmaşık cümleler
-- Zor ya da teknik kelimeler
-- Şiddet, korku veya üzücü içerik açıklaması
-
-ÖRNEK YANIT: "Bu bir kedi 🐱 Turuncu kedi bahçede oturuyor."
+- Şiddet, korku veya üzücü içerik görürsen description kısmına sadece "Bu görseli göremiyorum 🙈" yaz ve diğer alanları boş bırak.
 ''',
     'en': '''
 You are a special visual recognition assistant for children with autism.
@@ -139,12 +144,12 @@ No content restrictions apply in this mode.
   // KULLANICIYA GÖNDERILEN SORU
   // ----------------------------------------------------------------
   static const Map<String, String> _userPrompt = {
-    'tr': 'Bu görselde ne görüyorsun? Açıkla.',
-    'en': 'What do you see in this image? Describe it.',
-    'de': 'Was siehst du in diesem Bild? Beschreibe es.',
-    'fr': 'Que vois-tu dans cette image? Décris-la.',
-    'ar': 'ماذا ترى في هذه الصورة؟ صفها.',
-    'es': '¿Qué ves en esta imagen? Descríbela.',
+    'tr': 'Bu görseldeki nesneyi tanımla ve rengini sor.',
+    'en': 'Identify the object in this image and ask about its color.',
+    'de': 'Identifiziere das Objekt in diesem Bild und frage nach seiner Farbe.',
+    'fr': 'Identifie l\'objet dans cette image et demande sa couleur.',
+    'ar': 'حدد الكائن في هذه الصورة واسأل عن لونه.',
+    'es': 'Identifica el objeto en esta imagen y pregunta su color.',
   };
 
   // ----------------------------------------------------------------

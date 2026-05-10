@@ -53,9 +53,15 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
-        title: Text(
-          'Veli Paneli',
-          style: AppTheme.headlineSmall,
+        title: Row(
+          children: [
+            Image.asset(
+              'assets/models/luluna.png',
+              height: 32,
+            ),
+            const SizedBox(width: 12),
+            const Text('Veli Paneli'),
+          ],
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -391,7 +397,24 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
 
   Widget _buildSettingsTab() {
     return ListView(
+      padding: const EdgeInsets.symmetric(vertical: 10),
       children: [
+        _buildSettingsItem(
+          'Dil Seçeneği', 
+          'Uygulama dilini değiştirin', 
+          Icons.language,
+          onTap: () => _showLanguageDialog(),
+        ),
+        _buildSettingsItem(
+          'Tema Ayarları', 
+          'Koyu/Açık mod seçimi', 
+          Icons.palette,
+          onTap: () => _showThemeDialog(),
+        ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Divider(),
+        ),
         _buildSettingsItem('Ses Ayarları', 'Ses seviyesi ve dil', Icons.volume_up),
         _buildSettingsItem('Kamera Ayarları', 'Kalite ve izinler', Icons.camera_alt),
         _buildSettingsItem('Bildirimler', 'Uyarı ve hatırlatıcılar', Icons.notifications),
@@ -709,7 +732,7 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
     );
   }
 
-  Widget _buildSettingsItem(String title, String subtitle, IconData icon) {
+  Widget _buildSettingsItem(String title, String subtitle, IconData icon, {VoidCallback? onTap}) {
     return ListTile(
       leading: Container(
         padding: const EdgeInsets.all(12),
@@ -721,9 +744,76 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
       ),
       title: Text(title),
       subtitle: Text(subtitle),
-      trailing: const Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+      onTap: onTap ?? () {
+        // Varsayılan tıklama
+      },
+    );
+  }
+
+  void _showLanguageDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Dil Seçin'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildLanguageOption('Türkçe', 'TR', true),
+            _buildLanguageOption('English', 'US', false),
+            _buildLanguageOption('Deutsch', 'DE', false),
+            _buildLanguageOption('Français', 'FR', false),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Kapat'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showThemeDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Tema Ayarları'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.light_mode),
+              title: const Text('Açık Tema'),
+              trailing: const Icon(Icons.check_circle, color: Colors.green),
+              onTap: () => Navigator.pop(context),
+            ),
+            ListTile(
+              leading: const Icon(Icons.dark_mode),
+              title: const Text('Koyu Tema'),
+              onTap: () => Navigator.pop(context),
+            ),
+            ListTile(
+              leading: const Icon(Icons.brightness_auto),
+              title: const Text('Sistem Varsayılanı'),
+              onTap: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLanguageOption(String language, String code, bool isSelected) {
+    return ListTile(
+      title: Text(language),
+      trailing: isSelected ? const Icon(Icons.check_circle, color: Colors.green) : null,
       onTap: () {
-        // Ayar detayı
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Dil $language olarak değiştirildi')),
+        );
       },
     );
   }
