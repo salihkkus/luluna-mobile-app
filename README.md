@@ -45,18 +45,26 @@ Projemizin arayüzüne dair görselleri aşağıdan inceleyebilirsiniz:
 <div align="center">
   <table style="border: none;">
     <tr>
-      <td align="center"><b>Ana Sayfa / Giriş</b></td>
-      <td align="center"><b>Luluna Kamera & Sesli Sohbet</b></td>
-      <td align="center"><b>Ebeveyn Gelişim Raporu</b></td>
+      <td align="center"><b>Profil Seçimi</b></td>
+      <td align="center"><b>Çocuk Paneli</b></td>
+      <td align="center"><b>Kamera & Sohbet</b></td>
     </tr>
     <tr>
-      <td><img src="YOUR_SCREENSHOT_PATH_1" alt="Ana Sayfa Ekran Görüntüsü buraya gelecek" width="250"/></td>
-      <td><img src="YOUR_SCREENSHOT_PATH_2" alt="Kamera ve Sesli Chat Görseli buraya gelecek" width="250"/></td>
-      <td><img src="YOUR_SCREENSHOT_PATH_3" alt="Veli Rapor Görseli buraya gelecek" width="250"/></td>
+      <td><img src="luluna/foto/profil.jpeg" alt="Profil Seçimi" width="250"/></td>
+      <td><img src="luluna/foto/velet.jpeg" alt="Çocuk Paneli" width="250"/></td>
+      <td><img src="luluna/foto/foto%20çek.jpeg" alt="Kamera & Sohbet" width="250"/></td>
+    </tr>
+    <tr>
+      <td align="center"><b>Eğitici Test</b></td>
+      <td align="center"><b>Ebeveyn Raporu</b></td>
+      <td align="center"><b>İzin ve Gizlilik</b></td>
+    </tr>
+    <tr>
+      <td><img src="luluna/foto/test.jpeg" alt="Eğitici Test" width="250"/></td>
+      <td><img src="luluna/foto/rapor.jpeg" alt="Ebeveyn Raporu" width="250"/></td>
+      <td><img src="luluna/foto/izin.jpeg" alt="İzin ve Gizlilik" width="250"/></td>
     </tr>
   </table>
-  <br/>
-  <i>(Not: Görselleri eklemek için projeye fotoğrafları yükledikten sonra <code>YOUR_SCREENSHOT_PATH_1</code> vb. kısımları kendi resim dosyalarınızın yollarıyla güncelleyin. Örn: <code>assets/readme/home.png</code>)</i>
 </div>
 
 ---
