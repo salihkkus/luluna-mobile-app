@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import '../theme/app_theme.dart';
 import '../services/database_service.dart';
 import 'profile_selection_screen.dart';
+import 'report_preview_screen.dart';
 
 class ParentDashboardScreen extends StatefulWidget {
   const ParentDashboardScreen({super.key});
@@ -124,7 +125,67 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
             'Öğrenme Raporları',
             style: AppTheme.headlineMedium,
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 20),
+          
+          // Uyarı/Yapay Zeka Önerisi Kartı
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFFF8E1), // Açık sarı/turuncu arka plan
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: const Color(0xFFFFD54F), width: 1.5),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFFFFD54F).withOpacity(0.2),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFECB3),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(
+                    Icons.lightbulb_outline,
+                    color: Color(0xFFF57C00),
+                    size: 24,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Luluna Önerisi',
+                        style: AppTheme.headlineSmall.copyWith(
+                          color: const Color(0xFFE65100),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Çocuğunuz son zamanlarda renklere büyük ilgi gösteriyor. Gelişimini desteklemek için "Boyama Atölyesi" oyununa yönlendirebilirsiniz.',
+                        style: AppTheme.bodyMedium.copyWith(
+                          color: const Color(0xFFE65100).withOpacity(0.9),
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          
+          const SizedBox(height: 24),
           
           // Özet Kartları - Tasarım Sistemi Uyumlu
           Column(
@@ -300,20 +361,11 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
           // Rapor İndirme Kartı
           GestureDetector(
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Row(
-                    children: const [
-                      Icon(Icons.check_circle, color: Colors.white),
-                      SizedBox(width: 12),
-                      Text('Raporlar PDF olarak indiriliyor...'),
-                    ],
-                  ),
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  backgroundColor: AppTheme.primary,
+              HapticFeedback.lightImpact();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ReportPreviewScreen(),
                 ),
               );
             },

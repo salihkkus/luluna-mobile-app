@@ -16,6 +16,7 @@ class _ConsentPrivacyScreenState extends State<ConsentPrivacyScreen> {
   bool _storagePermission = true;
   bool _privacyAccepted = true;
   bool _kvkkAccepted = true;
+  bool _internationalDataAccepted = true;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +58,7 @@ class _ConsentPrivacyScreenState extends State<ConsentPrivacyScreen> {
                       style: AppTheme.headlineMedium.copyWith(
                         color: AppTheme.onPrimaryContainer,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: AppTheme.sm),
                     Text(
@@ -126,6 +128,14 @@ class _ConsentPrivacyScreenState extends State<ConsentPrivacyScreen> {
                 _privacyAccepted,
                 (value) => setState(() => _privacyAccepted = value),
                 () => _showPrivacyDetails(),
+              ),
+              
+              _buildPolicyItemWithDetails(
+                'Yurtdışı Veri Aktarımı Rızası',
+                'Verilerinizin yurtdışı sunucularına aktarımı',
+                _internationalDataAccepted,
+                (value) => setState(() => _internationalDataAccepted = value),
+                () => _showInternationalDataDetails(),
               ),
               
               const SizedBox(height: AppTheme.xl),
@@ -263,7 +273,8 @@ class _ConsentPrivacyScreenState extends State<ConsentPrivacyScreen> {
            _microphonePermission && 
            _storagePermission && 
            _privacyAccepted && 
-           _kvkkAccepted;
+           _kvkkAccepted &&
+           _internationalDataAccepted;
   }
 
   void _proceed() {
@@ -398,6 +409,11 @@ class _ConsentPrivacyScreenState extends State<ConsentPrivacyScreen> {
                   'Kişisel verileriniz, ilgili amaçların gerçekleştirilmesi için gereken süre kadar saklanacak olup, bu süre geçtikten sonra ilgili mevzuat hükümlerine uygun olarak silinir veya anonim hale getirilir.',
                 ),
                 
+                _buildSectionTitle('Yurtdışına Veri Aktarımı'),
+                _buildContentText(
+                  'Uygulamamızın altyapısı (örn. bulut hizmetleri, yapay zeka analiz servisleri) gereği, toplanan veriler yurtdışında bulunan güvenli sunuculara aktarılmaktadır. Bu aktarım için ayrıca Açık Rızanız alınmaktadır.',
+                ),
+                
                 _buildSectionTitle('Haklarınız'),
                 _buildContentText('KVKK kapsamında sahip olduğunuz haklar:'),
                 _buildBulletPoint('Verilerinizin işlenip işlenmediğini öğrenme'),
@@ -506,6 +522,75 @@ class _ConsentPrivacyScreenState extends State<ConsentPrivacyScreen> {
                 _buildSectionTitle('Politika Güncellemeleri'),
                 _buildContentText(
                   'Bu gizlilik politikası zaman zaman güncellenebilir. Önemli değişikliklerde sizi bilgilendireceğiz.',
+                ),
+                
+                const SizedBox(height: AppTheme.lg),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Kapat'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showInternationalDataDetails() {
+    HapticFeedback.lightImpact();
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        child: Container(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.8,
+          ),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(AppTheme.lg),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.public,
+                      color: AppTheme.primary,
+                      size: 28,
+                    ),
+                    const SizedBox(width: AppTheme.sm),
+                    Expanded(
+                      child: Text(
+                        'Yurtdışı Veri Aktarımı',
+                        style: AppTheme.headlineSmall,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppTheme.lg),
+                
+                _buildSectionTitle('Neden Yurtdışına Aktarım Yapıyoruz?'),
+                _buildContentText(
+                  'Luluna uygulaması, kullanıcılara gelişmiş yapay zeka özellikleri ve güvenilir bir altyapı sunabilmek için küresel bulut servis sağlayıcılarını (örn. Cloudflare) ve AI hizmetlerini kullanmaktadır. Bu sistemlerin sunucuları yurtdışında yer almaktadır.',
+                ),
+                
+                _buildSectionTitle('Hangi Veriler Aktarılıyor?'),
+                _buildBulletPoint('Sesli komutlar ve yapay zeka etkileşimleri'),
+                _buildBulletPoint('Kullanım metrikleri ve profil temel verileri'),
+                
+                _buildSectionTitle('Güvenlik ve Standartlar'),
+                _buildContentText(
+                  'Yurtdışına aktarılan tüm veriler, KVKK ve GDPR (Genel Veri Koruma Tüzüğü) standartlarına uygun olarak en güncel şifreleme yöntemleriyle (SSL/TLS) korunmakta, yalnızca hizmetin sağlanması için asgari düzeyde işlenmektedir.',
+                ),
+                
+                _buildSectionTitle('Açık Rıza Beyanı'),
+                _buildContentText(
+                  'Bu izni onaylayarak, uygulamanın çalışması için gerekli olan kişisel verilerinizin yukarıda belirtilen amaçlarla sınırlı olmak üzere yurtdışındaki güvenli sunuculara aktarılmasına açık rıza göstermiş olursunuz. Rızanızı dilediğiniz zaman geri alabilirsiniz.',
                 ),
                 
                 const SizedBox(height: AppTheme.lg),

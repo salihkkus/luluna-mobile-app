@@ -88,7 +88,7 @@ class _GamesScreenState extends State<GamesScreen> {
                     crossAxisCount: 2,
                     crossAxisSpacing: AppTheme.md,
                     mainAxisSpacing: AppTheme.md,
-                    childAspectRatio: 0.8,
+                    childAspectRatio: 0.75,
                   ),
                   itemCount: games.length,
                   itemBuilder: (context, index) {
@@ -158,31 +158,38 @@ class _GamesScreenState extends State<GamesScreen> {
                 const SizedBox(height: AppTheme.md),
                 
                 // Oyun Başlığı
-                Text(
-                  game.title,
-                  style: AppTheme.headlineSmall.copyWith(
-                    color: game.color,
-                    fontWeight: FontWeight.w600,
+                Flexible(
+                  flex: 2,
+                  child: Text(
+                    game.title,
+                    style: AppTheme.headlineSmall.copyWith(
+                      color: game.color,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
                 ),
                 
                 const SizedBox(height: AppTheme.sm),
                 
                 // Oyun Açıklaması
-                Text(
-                  game.description,
-                  style: AppTheme.bodySmall.copyWith(
-                    color: AppTheme.onSurfaceVariant,
+                Flexible(
+                  flex: 1,
+                  child: Text(
+                    game.description,
+                    style: AppTheme.bodySmall.copyWith(
+                      color: AppTheme.onSurfaceVariant,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
                 ),
                 
-                const Spacer(),
+                if (game.isComingSoon) ...[
+                  const Spacer(),
                 
                 // "Çok Yakında" etiketi (gerekirse)
                 if (game.isComingSoon)
@@ -203,6 +210,7 @@ class _GamesScreenState extends State<GamesScreen> {
                       ),
                     ),
                   ),
+                ],
               ],
             ),
           ),
