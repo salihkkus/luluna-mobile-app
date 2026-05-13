@@ -92,9 +92,6 @@ Proje modüler ve sürdürülebilir bir Flutter mimarisine sahiptir:
 
 ---
 
-
----
-
 ## 👥 Geliştirici Ekibi
 
 - **Salih Karakuş:** Mobil Uygulama Geliştirme (Düzce Üniversitesi Bilgisayar Mühendisliği)
