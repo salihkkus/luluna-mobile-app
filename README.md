@@ -92,43 +92,12 @@ Proje modüler ve sürdürülebilir bir Flutter mimarisine sahiptir:
 
 ---
 
-## ⚙️ Kurulum ve Çalıştırma
-
-Projeyi yerel ortamınızda derleyip test etmek için aşağıdaki adımları izleyebilirsiniz:
-
-1. **Depoyu Klonlayın:**
-   ```bash
-   git clone https://github.com/salihkkus/luluna-mobile-app.git
-   ```
-
-2. **Proje Dizinine Gidin:**
-   ```bash
-   cd luluna-mobile-app/luluna
-   ```
-
-3. **Gerekli Paketleri Yükleyin:**
-   ```bash
-   flutter pub get
-   ```
-
-4. **Ortam Değişkenlerini (Env) Ayarlayın:**
-   - `luluna` dizini içerisinde bir `.env` dosyası oluşturun.
-   - Yapay zeka servisleri için gerekli API anahtarlarınızı (örneğin Gemini API Key) bu dosyaya ekleyin:
-     ```env
-     GEMINI_API_KEY=your_api_key_here
-     ```
-
-5. **Uygulamayı Başlatın:**
-   ```bash
-   flutter run
-   ```
 
 ---
 
 ## 👥 Geliştirici Ekibi
 
 - **Salih Karakuş:** Mobil Uygulama Geliştirme (Düzce Üniversitesi Bilgisayar Mühendisliği)
-- **Doğu:** Yapay Zeka ve Model Geliştirme
 
 ---
 
